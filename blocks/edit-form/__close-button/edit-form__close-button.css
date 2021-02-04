@@ -1,0 +1,11 @@
+.edit-form__close-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: rgba(0,0,0,0);
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  right: -56px;
+  bottom: 50px;
+}

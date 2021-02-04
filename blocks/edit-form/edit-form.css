@@ -11,6 +11,7 @@
   background-color: white;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: left;
   position: fixed;
   z-index: 3;
