@@ -1,0 +1,9 @@
+.profile__occupation {
+  min-width: 415px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 16px auto 0;
+  text-align: left;
+}
