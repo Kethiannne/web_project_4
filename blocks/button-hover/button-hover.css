@@ -1,0 +1,7 @@
+.button-hover {
+  transition: opacity 1s linear .2s;
+}
+
+.elements__heart:hover {
+  opacity: .6;
+}
