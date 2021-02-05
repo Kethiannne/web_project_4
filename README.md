@@ -4,7 +4,7 @@
 
 * Images
 * Techniques
-
+* Deployment
 
 **Images**
 
@@ -21,3 +21,7 @@ Forms! We learned them a few weeks ago but didnt get to do anything with them un
 I wish there had been a basic form on a previous project, but I suppose without Javascript to give them purpose there... wouldnt be much of a purpose?
 
 I have added Media Queries to allow things to resize according to brief guidelines, nothing too fancy here, but after our last project I was honestly relieved by that. I really enjoy the ability to change background images via media queries!
+
+
+**Deployment**
+https://kethiannne.github.io/web_project_4/
