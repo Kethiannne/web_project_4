@@ -5,3 +5,10 @@
   margin-left: 30px;
   align-items: baseline;
 }
+
+@media screen and (max-width: 880px) {
+  .profile__profile-info {
+    justify-content: center;
+    margin: 30px auto 36px;
+  }
+}

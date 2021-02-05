@@ -9,4 +9,11 @@
   color: white;
   display: flex;
   align-items: center;
+  max-width: inherit;
+}
+
+@media screen and (max-width: 880px) {
+  .profile{
+    flex-direction: column;
+  }
 }

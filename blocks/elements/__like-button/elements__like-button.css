@@ -1,0 +1,9 @@
+.elements__like-button {
+  justify-self: flex-end;
+  background-image: url(../../../images/heart_disabled.png);
+  width: 21px;
+  height: 19px;
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

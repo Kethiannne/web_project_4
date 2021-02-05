@@ -1,5 +1,7 @@
 @import url(./__line/header__line.css);
+@import url(./__logo/header__logo.css);
 
 .header {
   margin: 45px auto 40px;
+  max-width: inherit;
 }
