@@ -3,9 +3,19 @@
   height: 40px;
   border: none;
   background-color: rgba(0,0,0,0);
+  background-image: url(../../../images/Close-Icon.png);
+  background: 40px 40px contain no-repeat;
+  background-position: center;
   cursor: pointer;
   padding: 0;
   position: relative;
-  right: -56px;
-  bottom: 50px;
+  right: -256px;
+  bottom: 55px;
+}
+
+@media screen and (max-width: 880px) {
+  .edit-form__close-button {
+    right: -156px;
+    bottom: 45px;
+  }
 }

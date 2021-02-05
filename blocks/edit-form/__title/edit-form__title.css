@@ -1,8 +1,18 @@
 .edit-form__title {
   min-width: 330px;
-  margin: 34px 0 54px 36px;
+  margin: 17px 0 54px 36px;
   font-size: 24px;
   font-style: normal;
   font-weight: 900;
   line-height: 1.2;
+}
+
+@media screen and (max-width: 880px) {
+  .edit-form__title {
+    min-width: 238px;
+    margin: 7px auto 75px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 900;
+  }
 }
