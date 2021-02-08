@@ -10,7 +10,7 @@
   background-size: 22px 22px;
   cursor: pointer;
   padding: 0;
-  margin-left: 165px;
+  margin-left: auto;
   transition: opacity 1s linear .2s;
 }
 

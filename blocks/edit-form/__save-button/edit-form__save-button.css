@@ -7,7 +7,6 @@
   background-position: center;
   padding: 0;
   margin: 18px auto 37px;
-  transition: opacity 1s linear .2s;
 
   color: white;
   font-size: 18px;
@@ -16,9 +15,6 @@
   text-align: center;
 }
 
-.edit-form__save-button:hover {
-  opacity: .6;
-}
 
 @media screen and (max-width: 880px){
   .edit-form__save-button {

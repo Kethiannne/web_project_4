@@ -11,17 +11,11 @@
   flex-direction: row;
   flex-wrap: wrap;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -165px;
-  margin-left: -215px;
   z-index: 3;
 }
 
 @media screen and (max-width: 880px) {
   .edit-form {
     width: 282px;
-    margin-top: -161px;
-    margin-left: -141px;
   }
 }
