@@ -2,5 +2,15 @@
   width: 80%;
   margin: 0 auto 30px;
   border: none;
-  border: rgba(0,0,0,.2) 1px solid;
+  border-bottom: rgba(0,0,0,.2) 1px solid;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 358px;
+}
+
+@media screen and (max-width: 880px){
+  .edit-form__field {
+    max-width: 238px;
+  }
 }

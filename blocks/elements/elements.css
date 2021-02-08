@@ -5,10 +5,6 @@
 @import url(./__wrapper/elements__wrapper.css);
 
 
-/*mods*/
-
-@import url(./__heart/_active/elements__heart_active.css);
-
 .elements {
   display: grid;
   max-width: 880px;

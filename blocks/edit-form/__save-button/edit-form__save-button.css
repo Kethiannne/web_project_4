@@ -3,18 +3,27 @@
   height: 50px;
   cursor: pointer;
   border: none;
-  background-color: white;
-  background-image: url(../../../images/Submit-Button.png);
-  background: contain no-repeat;
+  background-color: black;
   background-position: center;
   padding: 0;
   margin: 18px auto 37px;
+  transition: opacity 1s linear .2s;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.edit-form__save-button:hover {
+  opacity: .6;
 }
 
 @media screen and (max-width: 880px){
   .edit-form__save-button {
     width: 238px;
     height: 46px;
-    background-image: url(../../../images/Submit-Button-mobile.png);
+    font-size: 14px;
   }
 }

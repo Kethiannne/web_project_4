@@ -8,25 +8,11 @@
 </head>
 <body class="page">
 
-  <div class="popup">
-    <form class="edit-form">
-      <h2 class="edit-form__title">
-        Edit profile
-        <button class="edit-form__close-button button-hover">
-        </button>
-      </h2>
 
-      <input type="text" class="edit-form__field" id="name-form" placeholder="Name">
-      <input type="text" class="edit-form__field" id="occupation-form" placeholder="Occupation">
-      <button type="submit" class="edit-form__save-button button-hover">
-      </button>
-    </form>
-  </div>
 
   <main class="page__wrapper">
     <header class="header">
-      <img class="header__logo" src="images/headerlogo.png" alt="header__logo">
-      <div class="header__line"></div>
+      <img class="header__logo" src="images/icons/logo.svg" alt="header__logo">
     </header>
 
     <section class="profile">
@@ -34,81 +20,79 @@
       <div class="profile__profile-info">
         <h1 class="profile__name">Jacques Cousteau</h1>
 
-        <button class="profile__edit-button button-hover">
-          <img class="profile__edit" src="./images/Edit Button.png" alt="edit-button">
+        <button class="profile__edit-button button-hover" type="button">
         </button>
 
         <p class="profile__occupation">Explorer</p>
 
       </div>
       <button class="profile__add-button button-hover">
-        <img src="./images/Add Button.svg" alt="add-button">
       </button>
     </section>
 
     <section class="elements">
       <div class="elements__element">
-        <img class="elements__image" src="./images/baltimore day.jpg" alt="Baltimore">
+        <img class="elements__image" src="./images/baltimore-day.jpg" alt="Baltimore">
         <div class="elements__wrapper">
           <h2 class="elements__title">
           Snowy Baltimore
           </h2>
-          <button class="elements__heart button-hover" id="HB1">
+          <button class="elements__heart button-hover">
           </button>
         </div>
       </div>
 
       <div class="elements__element">
-        <img class="elements__image" src="./images/winter capital.jfif" alt="Capital Building">
+        <img class="elements__image" src="./images/winter-capital.jfif" alt="Capital Building">
         <div class="elements__wrapper">
           <h2 class="elements__title">
           National Capital
           </h2>
-          <button class="elements__heart button-hover" id="HB2">
+          <button class="elements__heart button-hover">
           </button>
         </div>
       </div>
 
       <div class="elements__element">
-        <img class="elements__image" src="./images/baltimore harbor.jfif" alt="Harbor">
+        <img class="elements__image" src="./images/baltimore-harbor.jfif" alt="Harbor">
         <div class="elements__wrapper">
           <h2 class="elements__title">
           Baltimore Harbor Fog Fountain
           </h2>
-          <button class="elements__heart button-hover" id="HB3">
+          <button class="elements__heart button-hover">
           </button>
         </div>
       </div>
 
       <div class="elements__element">
-        <img class="elements__image" src="./images/National Cathedral.jfif" alt="Cathedral">
+        <img class="elements__image" src="./images/National-Cathedral.jfif" alt="Cathedral">
         <div class="elements__wrapper">
           <h2 class="elements__title">
           National Cathedral
           </h2>
-          <button class="elements__heart button-hover" id="HB4">
+          <button class="elements__heart button-hover">
           </button>
         </div>
       </div>
 
       <div class="elements__element">
-        <img class="elements__image" src="./images/Washington Monument.jfif" alt="Washington Monument">
+        <img class="elements__image" src="./images/Washington-Monument.jfif" alt="Washington Monument">
         <div class="elements__wrapper">
           <h2 class="elements__title">
           Washington Monument Cherry Blossoms
           </h2>
-          <button class="elements__heart button-hover" id="HB5">
+          <button class="elements__heart button-hover">
           </button>
         </div>
       </div>
 
       <div class="elements__element">
-        <img class="elements__image" src="./images/Meridian Hill Park.jfif" alt="Meridian Hill">
+        <img class="elements__image" src="./images/Meridian-Hill-Park.jfif" alt="Meridian Hill">
         <div class="elements__wrapper">
           <h2 class="elements__title">
             Meridian Hill Park
           </h2>
-          <button class="elements__heart button-hover" id="HB6">
+          <button class="elements__heart button-hover">
           </button>
         </div>
       </div>
@@ -116,11 +100,27 @@
     </section>
 
     <footer class="footer">
-      <h3 class="footer__copyright">
+      <p class="footer__copyright">
         © 2020 Around The U.S.
-      </h3>
+      </p>
     </footer>
   </main>
+  <div class="popup">
+    <div class="popup__wrapper">
+      <button class="popup__close-button button-hover" type="button">
+      </button>
+      <form class="edit-form" name="edit-form">
+        <h2 class="edit-form__title">
+          Edit profile
+        </h2>
+
+        <input type="text" class="edit-form__field edit-form__field_input_name" placeholder="Name" name="Name">
+        <input type="text" class="edit-form__field edit-form__field_input_occupation" placeholder="Occupation" name="Occupation">
+        <button type="submit" class="edit-form__save-button button-hover">Save
+        </button>
+      </form>
+    </div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
