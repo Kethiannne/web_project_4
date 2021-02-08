@@ -8,10 +8,6 @@
   width: 430px;
 }
 
-
-/* With flex centering, the edit form kept appearing way too far down,
-and wasnt moving up responsively when I messed with screen height in the live server*/
-
 @media screen and (max-width: 880px) {
   .popup__wrapper {
     width: 282px;
