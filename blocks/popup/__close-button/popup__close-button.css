@@ -4,7 +4,6 @@
   border: none;
   background-color: rgba(0,0,0,0);
   background-image: url(../../../images/icons/Close-Icon.svg);
-  background: contain no-repeat;
   background-position: center;
   cursor: pointer;
   padding: 0;
