@@ -1,4 +1,4 @@
-.edit-form__field {
+.form__field {
   width: 80%;
   margin: 0 auto 30px;
   border: none;
@@ -13,7 +13,7 @@
 }
 
 @media screen and (max-width: 880px){
-  .edit-form__field {
+  .form__field {
     max-width: 238px;
   }
 }

@@ -1,40 +1,118 @@
-let page = document.querySelector(".page");
-let profile = page.querySelector(".profile");
-let popup = page.querySelector(".popup");
-let edit = profile.querySelector(".profile__edit-button");
-let editForm = popup.querySelector(".edit-form");
-let closeEdit = popup.querySelector(".popup__close-button");
+const page = document.querySelector(".page");
+const profile = page.querySelector(".profile");
+const popup = page.querySelector(".popup");
+const closeButton = popup.querySelector(".popup__close-button");
+//edit form vars
+const edit = profile.querySelector(".profile__edit-button");
+const editForm = popup.querySelector(".edit-form");
+const myName = profile.querySelector(".profile__name");
+const myOccupation = profile.querySelector(".profile__occupation");
+const nameForm = editForm.querySelector(".edit-form__field_input_name");
+const occupationForm = editForm.querySelector(".edit-form__field_input_occupation");
+//add form vars
+const add = profile.querySelector(".profile__add-button");
+const addForm = popup.querySelector(".add-form");
+const titleForm = addForm.querySelector(".add-form__field_input_title");
+const imageForm = addForm.querySelector(".add-form__field_input_image_link");
+//element card template vars
+const cardContainer = document.querySelector(".card-container");
 
-let nameForm = editForm.querySelector(".edit-form__field_input_name");
-let occupationForm = editForm.querySelector(".edit-form__field_input_occupation");
-let myName = profile.querySelector(".profile__name");
-let myOccupation = profile.querySelector(".profile__occupation");
 
-// A section For Opening and Closing the Popup
+// A section For the Popup Overlay
 //---------------------------------------------
-function openPopup(){
-  popup.classList.add("popup_opened");
-  nameForm.value = myName.textContent;
-  occupationForm.value = myOccupation.textContent;
-}
-function closePopup(){
-  popup.classList.remove("popup_opened");
-}
-edit.addEventListener("click", openPopup);
-closeEdit.addEventListener("click", closePopup);
+  function openPopup(){
+    popup.classList.add("popup_opened");
+  }
+  function closePopup(){
+    popup.classList.remove("popup_opened");
+  }
+  function closeForm(){
+    editForm.classList.remove("popup_opened");
+    addForm.classList.remove("popup_opened");
+  }
+  closeButton.addEventListener("click", function() {
+    closePopup();
+    closeForm();
+  });
 //----------------------------------------------
 
+// A section For the Edit Form
+//---------------------------------------------
+  edit.addEventListener("click", function() {
+    openPopup();
+    editForm.classList.add("popup_opened");
+    nameForm.value = myName.textContent;
+    occupationForm.value = myOccupation.textContent;
+  });
 
-// A section For the Edit Form Text
+  function saveProfileEdits(){
+    myName.textContent = nameForm.value;
+    myOccupation.textContent = occupationForm.value;
+    event.preventDefault();
+  }
+
+  editForm.addEventListener("submit", function() {
+    closePopup();
+    closeForm();
+    saveProfileEdits();
+  });
 //---------------------------------------------
 
+// A section for Place Cards
+//---------------------------------------------
 
-function saveProfileEdits(){
-  myName.textContent = nameForm.value;
-  myOccupation.textContent = occupationForm.value;
-  closePopup();
-  event.preventDefault()
+  const initialCards = [
+    {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
+    {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
+    {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
+    {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
+    {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
+    {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
+  ];
+
+  window.onload = initialCards.forEach(function (item){
+    makeCard(item.name, item.link);
+  });
+
+  function makeCard(title, imageLink) {
+    const cardTemplate = document.querySelector(".card-template").content;
+    const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
+
+    placeCard.querySelector(".elements__title").textContent = title;
+    placeCard.querySelector(".elements__image").alt = title;
+    placeCard.querySelector(".elements__image").src = imageLink;
+
+    placeCard.querySelector(".elements__heart").addEventListener(
+      "click", function(evt) {
+        evt.target.classList.toggle("elements__heart_active");
+      }
+    );
+
+    placeCard.querySelector(".elements__delete").addEventListener(
+      "click", function(evt) {
+        evt.target.parentElement.remove();
+      }
+    );
+
+    cardContainer.prepend(placeCard);
+  };
+//---------------------------------------------
+
+// A section For the Add Card Form
+//---------------------------------------------
+add.addEventListener("click", function() {
+  openPopup();
+  addForm.classList.add("popup_opened");
+});
+
+function saveNewPlace(){
+  makeCard(titleForm.value, imageForm.value);
+  event.preventDefault();
 }
 
-editForm.addEventListener("submit", saveProfileEdits);
+addForm.addEventListener("submit", function() {
+  closePopup();
+  closeForm();
+  saveNewPlace();
+});
 //---------------------------------------------
