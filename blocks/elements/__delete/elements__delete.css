@@ -1,8 +1,11 @@
 .elements__delete {
-  width: 22px;
+  width: 20px;
   height: 20px;
   border: none;
+  margin: 0;
+  padding: 0;
   background-image: url(../../../images/icons/trash.svg);
+  background-size: 20px 20px;
   background-repeat: no-repeat;
   background-color: transparent;
   cursor: pointer;
