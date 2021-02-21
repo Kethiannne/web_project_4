@@ -11,13 +11,13 @@
   const editForm = popupEdit.querySelector(".edit-form");
   const myName = profile.querySelector(".profile__name");
   const myOccupation = profile.querySelector(".profile__occupation");
-  const nameForm = editForm.querySelector(".edit-form__input_name");
-  const occupationForm = editForm.querySelector(".edit-form__input_occupation");
+  const nameForm = editForm.querySelector(".edit-form__name");
+  const occupationForm = editForm.querySelector(".edit-form__occupation");
 // Place Card Vars
   const add = profile.querySelector(".profile__add-button");
   const addForm = popupAdd.querySelector(".add-form");
-  const titleForm = addForm.querySelector(".add-form__input_title");
-  const imageForm = addForm.querySelector(".add-form__input_image_link");
+  const titleForm = addForm.querySelector(".add-form__title");
+  const imageForm = addForm.querySelector(".add-form__image");
 // Element Card Template Vars
   const cardContainer = document.querySelector(".card-container");
   const imagePopup = document.querySelector(".image-popup");
