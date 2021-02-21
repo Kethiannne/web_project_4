@@ -1,8 +1,10 @@
 .elements__image {
   width: 282px;
   height: 282px;
-  object-position: center;
   border-radius: 10px 10px 0 0;
-  object-fit: cover;
+  display: flex;
+  justify-content: flex-end;
   cursor: pointer;
+  background-size: cover;
+  background-position: center;
 }

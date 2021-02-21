@@ -18,6 +18,7 @@
 // Element Card Template Vars
   const cardContainer = document.querySelector(".card-container");
   const imagePopup = document.querySelector(".image-popup");
+  const imageCaption = document.querySelector(".image-caption");
 
 
 
@@ -30,16 +31,15 @@
     popup.classList.remove("popup_opened");
   }
   function closeForm(){
-    editForm.classList.remove("popup_opened");
-    addForm.classList.remove("popup_opened");
+    editForm.classList.remove("form_opened");
+    addForm.classList.remove("form_opened");
   }
   closeButton.addEventListener("click", function() {
     closePopup();
-    closeForm();
     imagePopup.src = "";
     imagePopup.alt = "";
-    imagePopup.classList.remove("popup_opened")
-
+    imageCaption.textContent = "";
+    imagePopup.classList.remove("form_opened")
   });
 //----------------------------------------------
 
@@ -47,7 +47,7 @@
 //---------------------------------------------
   edit.addEventListener("click", function() {
     openPopup();
-    editForm.classList.add("popup_opened");
+    editForm.classList.add("form_opened");
     nameForm.value = myName.textContent;
     occupationForm.value = myOccupation.textContent;
   });
@@ -69,7 +69,7 @@
 //---------------------------------------------
 add.addEventListener("click", function() {
   openPopup();
-  addForm.classList.add("popup_opened");
+  addForm.classList.add("form_opened");
 });
 
 function saveNewPlace(){
@@ -107,8 +107,7 @@ addForm.addEventListener("submit", function() {
     const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
 
     placeCard.querySelector(".elements__title").textContent = title;
-    placeCard.querySelector(".elements__image").alt = title;
-    placeCard.querySelector(".elements__image").src = imageLink;
+    placeCard.querySelector(".elements__image").style.backgroundImage = `url(${imageLink})`;
 
     placeCard.querySelector(".elements__heart").addEventListener(
       "click", function(evt) {
@@ -120,15 +119,17 @@ addForm.addEventListener("submit", function() {
       "click", function(evt) {
         openPopup();
 
-        imagePopup.src = evt.target.src;
-        imagePopup.alt = evt.target.alt;
-        imagePopup.classList.add("popup_opened")
+        imagePopup.src = imageLink;
+        imagePopup.alt = title;
+        imagePopup.classList.add("form_opened")
+        imageCaption.textContent = title;
       }
     );
 
     placeCard.querySelector(".elements__delete").addEventListener(
       "click", function(evt) {
-        evt.target.parentElement.remove();
+        evt.target.parentElement.parentElement.remove();
+        evt.stopPropagation();
       }
     );
 

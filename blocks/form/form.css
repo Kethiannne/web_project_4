@@ -2,24 +2,21 @@
 @import url(./__field/form__field.css);
 @import url(./__save-button/form__save-button.css);
 
-
 .form {
   width: 430px;
   border-radius: 10px;
   background-color: white;
-  display: flex;
+  display: none;
   flex-direction: row;
   flex-wrap: wrap;
-  position: fixed;
   z-index: 3;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
+  position: relative;
+  top: -16px;
 }
 
 
 @media screen and (max-width: 880px) {
   .form {
-    width: 282px;
+    width: 240px;
   }
 }

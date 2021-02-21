@@ -12,7 +12,19 @@
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/form/form.css);
 @import url(../blocks/image-popup/image-popup.css);
+@import url(../blocks/image-caption/image-caption.css);
+@import url(../blocks/_opened/form_opened.css);
 
 /* Block Mods */
 
 @import url(../blocks/_opened/popup_opened.css);
+
+
+.edit-form {
+ position: relative;
+ z-index: 3;
+}
+.add-form {
+  position: relative;
+  z-index: 4;
+}
