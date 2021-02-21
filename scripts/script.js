@@ -1,18 +1,21 @@
 // General Page Vars
   const page = document.querySelector(".page");
   const profile = page.querySelector(".profile");
-  const popup = page.querySelector(".popup");
-  const closeButton = popup.querySelector(".popup__close-button");
+  const popupEdit = page.querySelector(".popup_edit-form");
+  const popupAdd = page.querySelector(".popup_add-form");
+  const popupImages = page.querySelector(".popup_image");
+
+  const closeButton = document.querySelectorAll(".popup__close-button");
 // Edit form Vars
   const edit = profile.querySelector(".profile__edit-button");
-  const editForm = popup.querySelector(".edit-form");
+  const editForm = popupEdit.querySelector(".edit-form");
   const myName = profile.querySelector(".profile__name");
   const myOccupation = profile.querySelector(".profile__occupation");
   const nameForm = editForm.querySelector(".edit-form__field_input_name");
   const occupationForm = editForm.querySelector(".edit-form__field_input_occupation");
 // Place Card Vars
   const add = profile.querySelector(".profile__add-button");
-  const addForm = popup.querySelector(".add-form");
+  const addForm = popupAdd.querySelector(".add-form");
   const titleForm = addForm.querySelector(".add-form__field_input_title");
   const imageForm = addForm.querySelector(".add-form__field_input_image_link");
 // Element Card Template Vars
@@ -24,29 +27,24 @@
 
 // A section for the Popup Overlay
 //---------------------------------------------
-  function openPopup(){
+  function openPopup(popup){
     popup.classList.add("popup_opened");
   }
-  function closePopup(){
-    popup.classList.remove("popup_opened");
+
+  function closePopup(evt){
+    evt.target.closest(".popup").classList.remove("popup_opened");
   }
-  function closeForm(){
-    editForm.classList.remove("form_opened");
-    addForm.classList.remove("form_opened");
-  }
-  closeButton.addEventListener("click", function() {
-    closePopup();
-    imagePopup.src = "";
-    imagePopup.alt = "";
-    imageCaption.textContent = "";
-    imagePopup.classList.remove("form_opened")
-  });
+
+  Array.from(closeButton).forEach(function(close) {
+    close.addEventListener("click", function(evt) {
+      closePopup(evt);
+    })});
 //----------------------------------------------
 
 // A Section for the Edit Form
 //---------------------------------------------
-  edit.addEventListener("click", function() {
-    openPopup();
+  edit.addEventListener("click", function(evt) {
+    openPopup(popupEdit);
     editForm.classList.add("form_opened");
     nameForm.value = myName.textContent;
     occupationForm.value = myOccupation.textContent;
@@ -58,17 +56,16 @@
     event.preventDefault();
   }
 
-  editForm.addEventListener("submit", function() {
-    closePopup();
-    closeForm();
+  editForm.addEventListener("submit", function(evt) {
+    closePopup(evt);
     saveProfileEdits();
   });
 //---------------------------------------------
 
 // A section for the Add Card Form
 //---------------------------------------------
-add.addEventListener("click", function() {
-  openPopup();
+add.addEventListener("click", function(evt) {
+  openPopup(popupAdd);
   addForm.classList.add("form_opened");
 });
 
@@ -79,9 +76,9 @@ function saveNewPlace(){
   event.preventDefault();
 }
 
-addForm.addEventListener("submit", function() {
-  closePopup();
-  closeForm();
+addForm.addEventListener("submit", function(evt) {
+  event.preventDefault();
+  closePopup(evt);
   saveNewPlace();
 });
 //---------------------------------------------
@@ -117,7 +114,7 @@ addForm.addEventListener("submit", function() {
 
     placeCard.querySelector(".elements__image").addEventListener(
       "click", function(evt) {
-        openPopup();
+        openPopup(popupImages);
 
         imagePopup.src = imageLink;
         imagePopup.alt = title;

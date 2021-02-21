@@ -6,10 +6,9 @@
   width: 430px;
   border-radius: 10px;
   background-color: white;
-  display: none;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  z-index: 3;
   position: relative;
   top: -16px;
 }
