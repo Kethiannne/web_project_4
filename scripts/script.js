@@ -22,7 +22,54 @@
   const imagePopup = document.querySelector(".image-popup");
   const imageCaption = document.querySelector(".image-caption");
 
+// A Section for Place Cards
+//---------------------------------------------
 
+const initialCards = [
+  {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
+  {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
+  {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
+  {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
+  {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
+  {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
+];
+
+function makeCard(title, imageLink) {
+  const cardTemplate = document.querySelector(".card-template").content;
+  const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
+
+  placeCard.querySelector(".elements__title").textContent = title;
+  placeCard.querySelector(".elements__image").style.backgroundImage = `url(${imageLink})`;
+
+  placeCard.querySelector(".elements__heart").addEventListener(
+    "click", function(evt) {
+      evt.target.classList.toggle("elements__heart_active");
+    }
+  );
+
+  placeCard.querySelector(".elements__image").addEventListener(
+    "click", function(evt) {
+      openPopup(popupImages);
+
+      imagePopup.src = imageLink;
+      imagePopup.alt = title;
+      imageCaption.textContent = title;
+    }
+  );
+
+  placeCard.querySelector(".elements__delete").addEventListener(
+    "click", function(evt) {
+      evt.target.parentElement.parentElement.remove();
+      evt.stopPropagation();
+    }
+  );
+  return placeCard;
+};
+
+window.onload = initialCards.forEach(function (item){
+  cardContainer.append(makeCard(item.name, item.link));
+});
+//---------------------------------------------
 
 // A section for the Popup Overlay
 //---------------------------------------------
@@ -79,53 +126,6 @@ addForm.addEventListener("submit", function(evt) {
 });
 //---------------------------------------------
 
-// A Section for Place Cards
-//---------------------------------------------
 
-  const initialCards = [
-    {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
-    {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
-    {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
-    {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
-    {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
-    {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
-  ];
-
-  window.onload = initialCards.forEach(function (item){
-    cardContainer.append(makeCard(item.name, item.link));
-  });
-
-  function makeCard(title, imageLink) {
-    const cardTemplate = document.querySelector(".card-template").content;
-    const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
-
-    placeCard.querySelector(".elements__title").textContent = title;
-    placeCard.querySelector(".elements__image").style.backgroundImage = `url(${imageLink})`;
-
-    placeCard.querySelector(".elements__heart").addEventListener(
-      "click", function(evt) {
-        evt.target.classList.toggle("elements__heart_active");
-      }
-    );
-
-    placeCard.querySelector(".elements__image").addEventListener(
-      "click", function(evt) {
-        openPopup(popupImages);
-
-        imagePopup.src = imageLink;
-        imagePopup.alt = title;
-        imageCaption.textContent = title;
-      }
-    );
-
-    placeCard.querySelector(".elements__delete").addEventListener(
-      "click", function(evt) {
-        evt.target.parentElement.parentElement.remove();
-        evt.stopPropagation();
-      }
-    );
-    return placeCard;
-  };
-//---------------------------------------------
 
 
