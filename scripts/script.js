@@ -4,8 +4,7 @@
   const popupEdit = page.querySelector(".popup_edit-form");
   const popupAdd = page.querySelector(".popup_add-form");
   const popupImages = page.querySelector(".popup_image");
-
-  const closeButton = document.querySelectorAll(".popup__close-button");
+  const closeButtons = document.querySelectorAll(".popup__close-button");
 // Edit form Vars
   const edit = profile.querySelector(".profile__edit-button");
   const editForm = popupEdit.querySelector(".edit-form");
@@ -35,7 +34,7 @@
     evt.target.closest(".popup").classList.remove("popup_opened");
   }
 
-  Array.from(closeButton).forEach(function(close) {
+  Array.from(closeButtons).forEach(function(close) {
     close.addEventListener("click", function(evt) {
       closePopup(evt);
     })});
@@ -45,7 +44,6 @@
 //---------------------------------------------
   edit.addEventListener("click", function(evt) {
     openPopup(popupEdit);
-    editForm.classList.add("form_opened");
     nameForm.value = myName.textContent;
     occupationForm.value = myOccupation.textContent;
   });
@@ -53,12 +51,12 @@
   function saveProfileEdits(){
     myName.textContent = nameForm.value;
     myOccupation.textContent = occupationForm.value;
-    event.preventDefault();
   }
 
   editForm.addEventListener("submit", function(evt) {
     closePopup(evt);
     saveProfileEdits();
+    event.preventDefault();
   });
 //---------------------------------------------
 
@@ -66,18 +64,16 @@
 //---------------------------------------------
 add.addEventListener("click", function(evt) {
   openPopup(popupAdd);
-  addForm.classList.add("form_opened");
 });
 
 function saveNewPlace(){
-  makeCard(titleForm.value, imageForm.value);
+  cardContainer.prepend(makeCard(titleForm.value, imageForm.value));
   titleForm.value = "";
   imageForm.value = "";
-  event.preventDefault();
 }
 
 addForm.addEventListener("submit", function(evt) {
-  event.preventDefault();
+  evt.preventDefault();
   closePopup(evt);
   saveNewPlace();
 });
@@ -96,7 +92,7 @@ addForm.addEventListener("submit", function(evt) {
   ];
 
   window.onload = initialCards.forEach(function (item){
-    makeCard(item.name, item.link);
+    cardContainer.append(makeCard(item.name, item.link));
   });
 
   function makeCard(title, imageLink) {
@@ -118,7 +114,6 @@ addForm.addEventListener("submit", function(evt) {
 
         imagePopup.src = imageLink;
         imagePopup.alt = title;
-        imagePopup.classList.add("form_opened")
         imageCaption.textContent = title;
       }
     );
@@ -129,8 +124,7 @@ addForm.addEventListener("submit", function(evt) {
         evt.stopPropagation();
       }
     );
-
-    cardContainer.prepend(placeCard);
+    return placeCard;
   };
 //---------------------------------------------
 
