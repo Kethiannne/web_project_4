@@ -55,18 +55,21 @@
     if (evt.target.classList.contains("elements__image")) {
       openPopup(popupImages);
 
-      // Currently broken
+      //variables which isolate the location of the relevant image and text
+      const title = evt.target.nextElementSibling.firstElementChild.textContent;
+      const imageUrl = evt.target.style.backgroundImage.slice(5, (evt.target.style.backgroundImage.length - 2));
+                                                      //slice removes the "url()" part which src doesnt like
+      //
 
-      imagePopup.src = evt.target.style.backgroundImage;
-      imagePopup.alt = evt.target.closest(".elements__title").textContent;
-      imageCaption.textContent = evt.target.closest(".elements__title").textContent;
+      imagePopup.setAttribute("src", imageUrl);
+      imagePopup.alt = title;
+      imageCaption.textContent = title;
     };
 
     if (evt.target.classList.contains("elements__delete")) {
       evt.target.parentElement.parentElement.remove();
       evt.stopPropagation();
     };
-
   })
 
 
