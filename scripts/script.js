@@ -46,8 +46,6 @@
 
   cardContainer.addEventListener("click", function (evt) {
 
-    if (evt.target.classList.contains("")) {};
-
     if (evt.target.classList.contains("elements__heart")) {
       evt.target.classList.toggle("elements__heart_active");
     };
