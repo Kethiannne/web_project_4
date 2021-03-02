@@ -25,53 +25,59 @@
 // A Section for Place Cards
 //---------------------------------------------
 
-const initialCards = [
-  {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
-  {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
-  {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
-  {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
-  {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
-  {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
-];
+  const initialCards = [
+    {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
+    {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
+    {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
+    {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
+    {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
+    {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
+  ];
 
-function makeCard(title, imageLink) {
-  const cardTemplate = document.querySelector(".card-template").content;
-  const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
+  function makeCard(title, imageLink) {
+    const cardTemplate = document.querySelector(".card-template").content;
+    const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
 
-  placeCard.querySelector(".elements__title").textContent = title;
-  placeCard.querySelector(".elements__image").style.backgroundImage = `url(${imageLink})`;
+    placeCard.querySelector(".elements__title").textContent = title;
+    placeCard.querySelector(".elements__image").style.backgroundImage = `url(${imageLink})`;
 
-  placeCard.querySelector(".elements__heart").addEventListener(
-    "click", function(evt) {
+    return placeCard;
+  };
+
+  cardContainer.addEventListener("click", function (evt) {
+
+    if (evt.target.classList.contains("")) {};
+
+    if (evt.target.classList.contains("elements__heart")) {
       evt.target.classList.toggle("elements__heart_active");
-    }
-  );
+    };
 
-  placeCard.querySelector(".elements__image").addEventListener(
-    "click", function(evt) {
+    if (evt.target.classList.contains("elements__image")) {
       openPopup(popupImages);
 
-      imagePopup.src = imageLink;
+      //variables which isolate the location of the relevant image and text
+      const title = evt.target.nextElementSibling.firstElementChild.textContent;
+      const imageUrl = evt.target.style.backgroundImage.slice(5, (evt.target.style.backgroundImage.length - 2));
+                                                        //slice removes the "url()" part which src doesn't like
+      //
+
+      imagePopup.setAttribute("src", imageUrl);
       imagePopup.alt = title;
       imageCaption.textContent = title;
-    }
-  );
+    };
 
-  placeCard.querySelector(".elements__delete").addEventListener(
-    "click", function(evt) {
+    if (evt.target.classList.contains("elements__delete")) {
       evt.target.parentElement.parentElement.remove();
       evt.stopPropagation();
-    }
-  );
-  return placeCard;
-};
+    };
+  })
 
-window.onload = initialCards.forEach(function (item){
-  cardContainer.append(makeCard(item.name, item.link));
-});
-//---------------------------------------------
 
-// A section for the Popup Overlay
+
+  window.onload = initialCards.forEach(function (item){
+    cardContainer.append(makeCard(item.name, item.link));
+  });
+
 //---------------------------------------------
   function openPopup(popup){
     popup.classList.add("popup_opened");
