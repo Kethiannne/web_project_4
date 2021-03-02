@@ -24,6 +24,57 @@
   const imageCaption = document.querySelector(".image-caption");
 
 
+<<<<<<< Updated upstream
+=======
+  const initialCards = [
+    {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
+    {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
+    {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
+    {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
+    {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
+    {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
+  ];
+
+  function makeCard(title, imageLink) {
+    const cardTemplate = document.querySelector(".card-template").content;
+    const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
+
+    placeCard.querySelector(".elements__title").textContent = title;
+    placeCard.querySelector(".elements__image").style.backgroundImage = `url(${imageLink})`;
+
+    return placeCard;
+  };
+
+  cardContainer.addEventListener("click", function (evt) {
+
+    if (evt.target.classList.contains("")) {};
+
+    if (evt.target.classList.contains("elements__heart")) {
+      evt.target.classList.toggle("elements__heart_active");
+    };
+
+    if (evt.target.classList.contains("elements__image")) {
+      openPopup(popupImages);
+
+      imagePopup.src = evt.target.style.backgroundImage;
+      imagePopup.alt = evt.target.closest(".elements__title").textContent;
+      imageCaption.textContent = evt.target.closest(".elements__title").textContent;
+    };
+
+    if (evt.target.classList.contains("elements__delete")) {
+      evt.target.parentElement.parentElement.remove();
+      evt.stopPropagation();
+    };
+
+  })
+
+
+
+  window.onload = initialCards.forEach(function (item){
+    cardContainer.append(makeCard(item.name, item.link));
+  });
+//---------------------------------------------
+>>>>>>> Stashed changes
 
 // A section for the Popup Overlay
 //---------------------------------------------
