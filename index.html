@@ -52,9 +52,11 @@
 
   <div class="popup popup_edit-form">
     <div class="popup__wrapper">
+
       <button class="popup__close-button button-hover" type="button"  aria-label="Close">
       </button>
-      <form class="form edit-form form_closed" name="edit-form">
+
+      <form class="form edit-form form_closed" name="edit">
         <h2 class="form__title">
           Edit profile
         </h2>
@@ -64,23 +66,33 @@
         <button type="submit" class="form__save-button button-hover">Save
         </button>
       </form>
+
     </div>
   </div>
 
   <div class="popup popup_add-form">
     <div class="popup__wrapper">
+
       <button class="popup__close-button button-hover" type="button"  aria-label="Close">
       </button>
-      <form class="form add-form form_closed" name="add-form">
+
+      <form class="form add-form form_closed" name="add">
         <h2 class="form__title">
           New Place
         </h2>
 
+<<<<<<< Updated upstream
         <input type="text" required class="form__field add-form__field_input_title" placeholder="Title" name="Title">
         <input type="url" required class="form__field add-form__field_input_image_link" placeholder="Image Link" name="Image Link">
         <button type="submit" class="form__save-button button-hover">Create
+=======
+        <input type="text" required class="form__field add-form__title" placeholder="Title" name="Title">
+        <input type="url" required class="form__field add-form__image" placeholder="Image Link" name="ImageLink">
+        <button type="submit" class="form__save-button button-hover" aria-label="Create" disabled>Create
+>>>>>>> Stashed changes
         </button>
       </form>
+
     </div>
   </div>
 
