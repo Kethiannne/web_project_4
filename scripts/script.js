@@ -4,20 +4,21 @@
   const popupEdit = page.querySelector(".popup_edit-form");
   const popupAdd = page.querySelector(".popup_add-form");
   const popupImages = page.querySelector(".popup_image");
+  const popupAll = page.querySelectorAll(".popup");
   const closeButtons = document.querySelectorAll(".popup__close-button");
 // Edit form Vars
   const edit = profile.querySelector(".profile__edit-button");
-  const editForm = document.forms.edit;
   const myName = profile.querySelector(".profile__name");
   const myOccupation = profile.querySelector(".profile__occupation");
+  const editForm = document.forms.edit;
   const nameForm = editForm.elements.Name;
   const occupationForm = editForm.elements.Occupation;
 // Place Card and Add Form Vars
   const add = profile.querySelector(".profile__add-button");
+  const create = popupAdd.querySelector(".form__save-button");
   const addForm = document.forms.add;
   const titleForm = addForm.elements.Title;
   const imageForm = addForm.elements.ImageLink;
-  const create = popupAdd.querySelector(".form__save-button");
 // Element Card Template Vars
   const cardContainer = document.querySelector(".card-container");
   const imagePopup = document.querySelector(".image-popup");
@@ -46,8 +47,6 @@
   };
 
   cardContainer.addEventListener("click", function (evt) {
-
-    if (evt.target.classList.contains("")) {};
 
     if (evt.target.classList.contains("elements__heart")) {
       evt.target.classList.toggle("elements__heart_active");
@@ -86,14 +85,32 @@
     popup.classList.add("popup_opened");
   }
 
-  function closePopup(evt){
-    evt.target.closest(".popup").classList.remove("popup_opened");
+  function closePopup(){
+    popupEdit.classList.remove("popup_opened");
+    popupImages.classList.remove("popup_opened");
+    popupAdd.classList.remove("popup_opened");
+    addForm.reset();
   }
 
   Array.from(closeButtons).forEach(function(close) {
-    close.addEventListener("click", function(evt) {
-      closePopup(evt);
+    close.addEventListener("click", function() {
+      closePopup();
     })});
+
+  document.addEventListener("keydown", function(evt) {
+    if (evt.key === "Escape") {
+      closePopup();
+    }
+  });
+
+  Array.from(popupAll).forEach(function(popup){
+    popup.addEventListener("click", function(evt){
+      if (evt.target === evt.currentTarget){
+        closePopup();
+      }
+    });
+  })
+
 //----------------------------------------------
 
 // A Section for the Edit Form
@@ -110,49 +127,27 @@
   }
 
   editForm.addEventListener("submit", function(evt) {
-    closePopup(evt);
     saveProfileEdits();
-    event.preventDefault();
+    closePopup(evt);
   });
 //---------------------------------------------
 
 // A section for the Add Card Form
 //---------------------------------------------
-add.addEventListener("click", function(evt) {
-  openPopup(popupAdd);
-});
+  add.addEventListener("click", function(evt) {
+    openPopup(popupAdd);
+  });
 
-
-/*Oi, lets try and figure out a way to make it so the form only submits if the imageForm input begins with
-https: or something that checks if the link put there actually goes anywhere*/
-
-function saveNewPlace(){
-  cardContainer.prepend(makeCard(titleForm.value, imageForm.value));
-  titleForm.value = "";
-  imageForm.value = "";
-  validLink(false);
-}
-
-function validLink(truthy){
-  if(truthy){
-    create.removeAttribute("disabled")
-  } else {
-    create.setAttribute("disabled", true)
+  function saveNewPlace(){
+    cardContainer.prepend(makeCard(titleForm.value, imageForm.value));
   }
-}
 
-addForm.addEventListener("input", function(evt){
-  const validPlace = (titleForm.value.length && imageForm.value.length !== 0) && imageForm.value.startsWith("https");
-  validLink(validPlace);
-})
 
-addForm.addEventListener("submit", function(evt) {
-  evt.preventDefault();
-  closePopup(evt);
-  saveNewPlace();
-});
+  addForm.addEventListener("submit", function(evt) {
+    saveNewPlace();
+    closePopup(evt);
+  });
 //---------------------------------------------
-
 
 
 

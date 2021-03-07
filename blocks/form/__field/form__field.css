@@ -12,6 +12,7 @@
   line-height: 1.2;
 }
 
+
 @media screen and (max-width: 880px){
   .form__field {
     max-width: 238px;
