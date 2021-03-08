@@ -52,35 +52,55 @@
 
   <div class="popup popup_edit-form">
     <div class="popup__wrapper">
+
       <button class="popup__close-button button-hover" type="button"  aria-label="Close">
       </button>
-      <form class="form edit-form form_closed" name="edit-form">
+
+      <form class="form edit-form form_closed" name="edit" novalidate>
         <h2 class="form__title">
           Edit profile
         </h2>
 
-        <input type="text" required class="form__field edit-form__name" placeholder="Name" name="Name">
-        <input type="text" required class="form__field edit-form__occupation" placeholder="Occupation" name="Occupation">
-        <button type="submit" class="form__save-button button-hover">Save
+        <input type="text" required class="form__field edit-form__field_input_name" placeholder="Name" name="Name"
+        minlength="2" maxlength="40">
+        <span class="form__field-error Name-error"></span>
+
+        <input type="text" required class="form__field edit-form__field_input_occupation" placeholder="Occupation"
+        name="Occupation" minlength="2" maxlength="200">
+        <span class="form__field-error Occupation-error"></span>
+
+        <button type="submit" class="form__save-button button-hover" >Save
         </button>
       </form>
+
     </div>
   </div>
 
   <div class="popup popup_add-form">
     <div class="popup__wrapper">
+
       <button class="popup__close-button button-hover" type="button"  aria-label="Close">
       </button>
-      <form class="form add-form form_closed" name="add-form">
+
+      <form class="form add-form form_closed" name="add" novalidate>
         <h2 class="form__title">
           New Place
         </h2>
 
-        <input type="text" required class="form__field add-form__title" placeholder="Title" name="Title">
-        <input type="url" required class="form__field add-form__image" placeholder="Image Link" name="Image Link">
-        <button type="submit" class="form__save-button button-hover">Create
+
+        <input type="text" required class="form__field add-form__title" placeholder="Title" name="Title"
+        minlength="1" maxlength="30">
+        <span class="form__field-error Title-error"></span>
+
+
+        <input type="url" required class="form__field add-form__image" placeholder="Image Link" name="ImageLink">
+        <span class="form__field-error ImageLink-error"></span>
+
+
+        <button type="submit" class="form__save-button button-hover" aria-label="Create" >Create
         </button>
       </form>
+
     </div>
   </div>
 
@@ -98,5 +118,6 @@
     </div>
   </template>
   <script src="./scripts/script.js"></script>
+  <script src=".scripts/validate.js"></script>
 </body>
 </html>

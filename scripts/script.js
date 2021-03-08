@@ -4,19 +4,21 @@
   const popupEdit = page.querySelector(".popup_edit-form");
   const popupAdd = page.querySelector(".popup_add-form");
   const popupImages = page.querySelector(".popup_image");
+  const popupAll = page.querySelectorAll(".popup");
   const closeButtons = document.querySelectorAll(".popup__close-button");
 // Edit form Vars
   const edit = profile.querySelector(".profile__edit-button");
-  const editForm = popupEdit.querySelector(".edit-form");
   const myName = profile.querySelector(".profile__name");
   const myOccupation = profile.querySelector(".profile__occupation");
-  const nameForm = editForm.querySelector(".edit-form__name");
-  const occupationForm = editForm.querySelector(".edit-form__occupation");
-// Place Card Vars
+  const editForm = document.forms.edit;
+  const nameForm = editForm.elements.Name;
+  const occupationForm = editForm.elements.Occupation;
+// Place Card and Add Form Vars
   const add = profile.querySelector(".profile__add-button");
-  const addForm = popupAdd.querySelector(".add-form");
-  const titleForm = addForm.querySelector(".add-form__title");
-  const imageForm = addForm.querySelector(".add-form__image");
+  const create = popupAdd.querySelector(".form__save-button");
+  const addForm = document.forms.add;
+  const titleForm = addForm.elements.Title;
+  const imageForm = addForm.elements.ImageLink;
 // Element Card Template Vars
   const cardContainer = document.querySelector(".card-container");
   const imagePopup = document.querySelector(".image-popup");
@@ -76,19 +78,37 @@
     cardContainer.append(makeCard(item.name, item.link));
   });
 
+// A section for Opening and for Closing
 //---------------------------------------------
   function openPopup(popup){
     popup.classList.add("popup_opened");
   }
 
-  function closePopup(evt){
-    evt.target.closest(".popup").classList.remove("popup_opened");
+  function closePopup(){
+    popupEdit.classList.remove("popup_opened");
+    popupImages.classList.remove("popup_opened");
+    popupAdd.classList.remove("popup_opened");
   }
 
   Array.from(closeButtons).forEach(function(close) {
-    close.addEventListener("click", function(evt) {
-      closePopup(evt);
+    close.addEventListener("click", function() {
+      closePopup();
     })});
+
+  document.addEventListener("keydown", function(evt) {
+    if (evt.key === "Escape") {
+      closePopup();
+    }
+  });
+
+  Array.from(popupAll).forEach(function(popup){
+    popup.addEventListener("click", function(evt){
+      if (evt.target === evt.currentTarget){
+        closePopup();
+      }
+    });
+  })
+
 //----------------------------------------------
 
 // A Section for the Edit Form
@@ -105,31 +125,27 @@
   }
 
   editForm.addEventListener("submit", function(evt) {
-    closePopup(evt);
     saveProfileEdits();
-    event.preventDefault();
+    closePopup(evt);
   });
 //---------------------------------------------
 
 // A section for the Add Card Form
 //---------------------------------------------
-add.addEventListener("click", function(evt) {
-  openPopup(popupAdd);
-});
+  add.addEventListener("click", function(evt) {
+    openPopup(popupAdd);
+  });
 
-function saveNewPlace(){
-  cardContainer.prepend(makeCard(titleForm.value, imageForm.value));
-  titleForm.value = "";
-  imageForm.value = "";
-}
+  function saveNewPlace(){
+    cardContainer.prepend(makeCard(titleForm.value, imageForm.value));
+  }
 
-addForm.addEventListener("submit", function(evt) {
-  evt.preventDefault();
-  closePopup(evt);
-  saveNewPlace();
-});
+
+  addForm.addEventListener("submit", function(evt) {
+    saveNewPlace();
+    closePopup(evt);
+  });
 //---------------------------------------------
-
 
 
 
