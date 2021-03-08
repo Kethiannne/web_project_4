@@ -89,7 +89,6 @@
     popupEdit.classList.remove("popup_opened");
     popupImages.classList.remove("popup_opened");
     popupAdd.classList.remove("popup_opened");
-    addForm.reset();
   }
 
   Array.from(closeButtons).forEach(function(close) {
