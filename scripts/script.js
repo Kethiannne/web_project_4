@@ -80,14 +80,21 @@
 
 // A section for Opening and for Closing
 //---------------------------------------------
+  function closeEscape(evt) {
+    if (evt.key === "Escape") {
+      closePopup();
+    }
+  }
+
   function openPopup(popup){
     popup.classList.add("popup_opened");
+    document.addEventListener("keydown", closeEscape);
   }
 
   function closePopup(){
-    popupEdit.classList.remove("popup_opened");
-    popupImages.classList.remove("popup_opened");
-    popupAdd.classList.remove("popup_opened");
+    const popupOpen = document.querySelector(`.popup_opened`);
+    popupOpen.classList.remove(`popup_opened`);
+    document.removeEventListener("keydown", closeEscape);
   }
 
   Array.from(closeButtons).forEach(function(close) {
@@ -95,11 +102,7 @@
       closePopup();
     })});
 
-  document.addEventListener("keydown", function(evt) {
-    if (evt.key === "Escape") {
-      closePopup();
-    }
-  });
+
 
   Array.from(popupAll).forEach(function(popup){
     popup.addEventListener("click", function(evt){
@@ -144,8 +147,7 @@
   addForm.addEventListener("submit", function(evt) {
     saveNewPlace();
     closePopup(evt);
+    create.classList.add("form__save-button_disabled");
+    create.setAttribute("disabled", true);
   });
 //---------------------------------------------
-
-
-

@@ -69,6 +69,7 @@
 
       formElement.addEventListener("submit", function (evt) {
         evt.preventDefault();
+        formElement.reset();
       });
 
       setEventListeners(formElement, config);
