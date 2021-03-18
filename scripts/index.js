@@ -1,9 +1,12 @@
+import {Card} from "./Card.js";
+import {openPopup, closePopup} from "./commonFunctions.js";
+import {FormValidator} from "./FormValidator.js";
+
 // General Page Vars
   const page = document.querySelector(".page");
   const profile = page.querySelector(".profile");
   const popupEdit = page.querySelector(".popup_edit-form");
   const popupAdd = page.querySelector(".popup_add-form");
-  const popupImages = page.querySelector(".popup_image");
   const popupAll = page.querySelectorAll(".popup");
   const closeButtons = document.querySelectorAll(".popup__close-button");
 // Edit form Vars
@@ -21,10 +24,8 @@
   const imageForm = addForm.elements.ImageLink;
 // Element Card Template Vars
   const cardContainer = document.querySelector(".card-container");
-  const imagePopup = document.querySelector(".image-popup");
-  const imageCaption = document.querySelector(".image-caption");
 
-// A Section for Place Cards
+// A Section for stuff done when the page loads up
 //---------------------------------------------
 
   const initialCards = [
@@ -36,66 +37,37 @@
     {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
   ];
 
-  function makeCard(title, imageLink) {
-    const cardTemplate = document.querySelector(".card-template").content;
-    const placeCard = cardTemplate.querySelector(".elements__element").cloneNode(true);
-
-    placeCard.querySelector(".elements__title").textContent = title;
-    placeCard.querySelector(".elements__image").style.backgroundImage = `url(${imageLink})`;
-
-    return placeCard;
-  };
-
-  cardContainer.addEventListener("click", function (evt) {
-
-    if (evt.target.classList.contains("elements__heart")) {
-      evt.target.classList.toggle("elements__heart_active");
-    };
-
-    if (evt.target.classList.contains("elements__image")) {
-      openPopup(popupImages);
-
-      //variables which isolate the location of the relevant image and text
-      const title = evt.target.nextElementSibling.firstElementChild.textContent;
-      const imageUrl = evt.target.style.backgroundImage.slice(5, (evt.target.style.backgroundImage.length - 2));
-                                                        //slice removes the "url()" part which src doesn't like
-      //
-
-      imagePopup.setAttribute("src", imageUrl);
-      imagePopup.alt = title;
-      imageCaption.textContent = title;
-    };
-
-    if (evt.target.classList.contains("elements__delete")) {
-      evt.target.parentElement.parentElement.remove();
-      evt.stopPropagation();
-    };
-  })
-
-
-
   window.onload = initialCards.forEach(function (item){
-    cardContainer.append(makeCard(item.name, item.link));
+    const initialCard = new Card(item.name, item.link, ".card-template");
+    const loadedCard = initialCard.makeCard();
+
+    cardContainer.append(loadedCard);
   });
+
+  function initialValidation(){
+    const formList = Array.from(document.querySelectorAll(".form"));
+
+    formList.forEach(function(formElement) {
+      const newForm = new FormValidator(
+        {
+        inputSelector: ".form__field",
+        submitButtonSelector: ".form__save-button",
+        inactiveButtonClass: "form__save-button_disabled",
+        inputErrorClass: "form__field_error",
+        errorClass: "form__field-error_active"
+        },
+        formElement)
+
+      newForm.enableValidation();
+    });
+  }
+
+  initialValidation();
+
+//---------------------------------------------
 
 // A section for Opening and for Closing
 //---------------------------------------------
-  function closeEscape(evt) {
-    if (evt.key === "Escape") {
-      closePopup();
-    }
-  }
-
-  function openPopup(popup){
-    popup.classList.add("popup_opened");
-    document.addEventListener("keydown", closeEscape);
-  }
-
-  function closePopup(){
-    const popupOpen = document.querySelector(`.popup_opened`);
-    popupOpen.classList.remove(`popup_opened`);
-    document.removeEventListener("keydown", closeEscape);
-  }
 
   Array.from(closeButtons).forEach(function(close) {
     close.addEventListener("click", function() {
@@ -139,8 +111,11 @@
     openPopup(popupAdd);
   });
 
-  function saveNewPlace(){
-    cardContainer.prepend(makeCard(titleForm.value, imageForm.value));
+  function saveNewPlace() {
+    const newCard = new Card(titleForm.value, imageForm.value, ".card-template");
+    const saveCard = newCard.makeCard();
+
+    cardContainer.prepend(saveCard);
   }
 
 
@@ -149,5 +124,6 @@
     closePopup(evt);
     create.classList.add("form__save-button_disabled");
     create.setAttribute("disabled", true);
+    addForm.reset();
   });
 //---------------------------------------------
