@@ -37,6 +37,15 @@ import {FormValidator} from "./FormValidator.js";
     {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
   ];
 
+  const settings = {
+    inputSelector: ".form__field",
+    submitButtonSelector: ".form__save-button",
+    inactiveButtonClass: "form__save-button_disabled",
+    inputErrorClass: "form__field_error",
+    errorClass: "form__field-error_active"
+    };
+
+
   window.onload = initialCards.forEach(function (item){
     const initialCard = new Card(item.name, item.link, ".card-template");
     const loadedCard = initialCard.makeCard();
@@ -44,25 +53,13 @@ import {FormValidator} from "./FormValidator.js";
     cardContainer.append(loadedCard);
   });
 
-  function initialValidation(){
-    const formList = Array.from(document.querySelectorAll(".form"));
+  function newValidator (formElement) {
+    const newForm = new FormValidator(settings, formElement)
+    newForm.enableValidation();
+  };
 
-    formList.forEach(function(formElement) {
-      const newForm = new FormValidator(
-        {
-        inputSelector: ".form__field",
-        submitButtonSelector: ".form__save-button",
-        inactiveButtonClass: "form__save-button_disabled",
-        inputErrorClass: "form__field_error",
-        errorClass: "form__field-error_active"
-        },
-        formElement)
-
-      newForm.enableValidation();
-    });
-  }
-
-  initialValidation();
+  newValidator(addForm);
+  newValidator(editForm);
 
 //---------------------------------------------
 
