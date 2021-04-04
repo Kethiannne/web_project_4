@@ -1,5 +1,5 @@
 import {Card} from "./Card.js";
-import {openPopup, closePopup} from "./commonFunctions.js";
+import {openPopup, closePopup} from "./Popup.js";
 import {FormValidator} from "./FormValidator.js";
 
 // General Page Vars
