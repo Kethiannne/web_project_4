@@ -44,13 +44,21 @@ class FormValidator {
   //-- En/Dis-abling Submit Buttons Based on Validity of Their Corresponding Forms
     _toggleButtonState (inputList, saveButton) {
       if (this._hasInvalidInput(inputList)) {
-        saveButton.setAttribute("disabled", true);
-        saveButton.classList.add(this._inactiveButtonClass);
+        this.disableButton(saveButton);
       } else {
-        saveButton.removeAttribute("disabled", true);
-        saveButton.classList.remove(this._inactiveButtonClass);
+        this.enableButton(saveButton);
       }
     };
+
+    disableButton(saveButton){
+      saveButton.setAttribute("disabled", true);
+      saveButton.classList.add(this._inactiveButtonClass);
+    }
+
+    enableButton(saveButton){
+      saveButton.removeAttribute("disabled", true);
+      saveButton.classList.remove(this._inactiveButtonClass);
+    }
   //--
 
   _setEventListeners () {
@@ -73,8 +81,6 @@ class FormValidator {
     this._formElement.addEventListener("submit", (evt) =>
     {
       evt.preventDefault();
-      //added this \/
-      this._toggleButtonState(inputList, saveButton);
     });
   };
 

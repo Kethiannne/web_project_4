@@ -29,6 +29,7 @@ export const settings = {
   export const editForm = document.forms.edit;
   export const nameForm = editForm.elements.Name;
   export const occupationForm = editForm.elements.Occupation;
+  export const save = popupEdit.querySelector(".form__save-button");
 // Place Card and Add Form Vars
   export const add = profile.querySelector(".profile__add-button");
   export const create = popupAdd.querySelector(".form__save-button");
@@ -42,3 +43,5 @@ export const settings = {
   export const imagePopup = document.querySelector(".image-popup");
   export const imageCaption = document.querySelector(".image-caption");
   export const popupImages = document.querySelector(".popup_image");
+
+

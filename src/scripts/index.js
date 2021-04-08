@@ -10,33 +10,41 @@ import {myName, myOccupation}from "./constants.js"
 import UserInfo from "./UserInfo";
 
 
-// A Section for stuff done when the page loads up
+// A Section for Form Validators
 //---------------------------------------------
   function newValidator (formElement) {
     const newForm = new FormValidator(constants.settings, formElement)
     newForm.enableValidation();
-  };
+    return newForm;
+  }
 
-  newValidator(constants.addForm);
-  newValidator(constants.editForm);
+  const addValidator = newValidator(constants.addForm);
+  const editValidator = newValidator(constants.editForm);
 //---------------------------------------------
-
 const userInformation = new UserInfo({myName, myOccupation});
 
+const imagePop = new PopupWithImage(constants.popupImages);
+imagePop.setEventListeners();
+
+// A Section for functions that i will move later
+//---------------------------------------------
 function handleCardClick(text, link){
-  const imagePop = new PopupWithImage(constants.popupImages);
-  imagePop.setEventListeners();
   imagePop.openPopup(text, link)
 }
+
+function makeANewCard(name, link){
+  const initCard = new Card(name, link, ".card-template", handleCardClick);
+  const loadCard = initCard.makeCard();
+  return loadCard;
+}
+//---------------------------------------------
 
 const cards = new Section(
   {
     items: constants.initialCards,
 
     renderer: (item) => {
-      const initCard = new Card(item.name, item.link, ".card-template", handleCardClick);
-      const loadCard = initCard.makeCard();
-      cards.addItem(loadCard);
+      cards.addItem(makeANewCard(item.name, item.link));
     },
   },
   constants.cardContainer
@@ -47,15 +55,16 @@ cards.renderElements();
 // A Section for the Edit Form
 //---------------------------------------------
   const editPopup = new PopupWithForm(
-    constants.popupEdit,() => {
+    constants.popupEdit,(values) => {
       //handles what happens when this form is submitted
-      userInformation.setUserInfo(constants.nameForm.value ,constants.occupationForm.value)
+      userInformation.setUserInfo(values.Name ,values.Occupation);
       editPopup.closePopup();
     }, () => {
       //handles what happens when this form is opened
       const {name, job} = userInformation.getUserInfo();
       constants.nameForm.value = name;
       constants.occupationForm.value = job;
+      editValidator.enableButton(constants.save);
     }
   );
   editPopup.setEventListeners();
@@ -65,20 +74,14 @@ cards.renderElements();
 //---------------------------------------------
 
   const addPopup = new PopupWithForm(
-    constants.popupAdd, () => {
+    constants.popupAdd, (values) => {
       //handles what happens when this form is submitted
-      //makes a new card and sends it over to the cards section
-        const newCard = new Card(constants.titleForm.value, constants.imageForm.value, ".card-template", handleCardClick);
-        const saveCard = newCard.makeCard();
-        cards.addItem(saveCard);
-      //closes the popup and disables the button
+        cards.addItem(makeANewCard(values.Title, values.ImageLink));
         addPopup.closePopup();
-        // constants.create.classList.add("form__save-button_disabled");
-        // constants.create.setAttribute("disabled", true);
-
     }, () => {
       //handles what happens when this form is opened
       constants.addForm.reset();
+      addValidator.disableButton(constants.create);
     }
   );
   addPopup.setEventListeners();
