@@ -1,126 +1,96 @@
+import "../pages/index.css";
+import Section from "./Section.js";
 import {Card} from "./Card.js";
-import {openPopup, closePopup} from "./Popup.js";
+import Popup from "./Popup.js";
+import PopupWithImage from "./PopupWithImage.js";
+import PopupWithForm from "./PopupWithForm.js";
 import {FormValidator} from "./FormValidator.js";
+import * as constants from "./constants.js";
+import {myName, myOccupation}from "./constants.js"
+import UserInfo from "./UserInfo";
 
-// General Page Vars
-  const page = document.querySelector(".page");
-  const profile = page.querySelector(".profile");
-  const popupEdit = page.querySelector(".popup_edit-form");
-  const popupAdd = page.querySelector(".popup_add-form");
-  const popupAll = page.querySelectorAll(".popup");
-  const closeButtons = document.querySelectorAll(".popup__close-button");
-// Edit form Vars
-  const edit = profile.querySelector(".profile__edit-button");
-  const myName = profile.querySelector(".profile__name");
-  const myOccupation = profile.querySelector(".profile__occupation");
-  const editForm = document.forms.edit;
-  const nameForm = editForm.elements.Name;
-  const occupationForm = editForm.elements.Occupation;
-// Place Card and Add Form Vars
-  const add = profile.querySelector(".profile__add-button");
-  const create = popupAdd.querySelector(".form__save-button");
-  const addForm = document.forms.add;
-  const titleForm = addForm.elements.Title;
-  const imageForm = addForm.elements.ImageLink;
-// Element Card Template Vars
-  const cardContainer = document.querySelector(".card-container");
 
 // A Section for stuff done when the page loads up
 //---------------------------------------------
-
-  const initialCards = [
-    {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
-    {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
-    {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
-    {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
-    {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
-    {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
-  ];
-
-  const settings = {
-    inputSelector: ".form__field",
-    submitButtonSelector: ".form__save-button",
-    inactiveButtonClass: "form__save-button_disabled",
-    inputErrorClass: "form__field_error",
-    errorClass: "form__field-error_active"
-    };
-
-
-  window.onload = initialCards.forEach(function (item){
-    const initialCard = new Card(item.name, item.link, ".card-template");
-    const loadedCard = initialCard.makeCard();
-
-    cardContainer.append(loadedCard);
-  });
-
   function newValidator (formElement) {
-    const newForm = new FormValidator(settings, formElement)
+    const newForm = new FormValidator(constants.settings, formElement)
     newForm.enableValidation();
   };
 
-  newValidator(addForm);
-  newValidator(editForm);
-
+  newValidator(constants.addForm);
+  newValidator(constants.editForm);
 //---------------------------------------------
 
-// A section for Opening and for Closing
-//---------------------------------------------
+const userInformation = new UserInfo({myName, myOccupation});
 
-  Array.from(closeButtons).forEach(function(close) {
-    close.addEventListener("click", function() {
-      closePopup();
-    })});
+function handleCardClick(text, link){
+  const imagePop = new PopupWithImage(constants.popupImages);
+  imagePop.setEventListeners();
+  imagePop.openPopup(text, link)
+}
 
+const Cards = new Section(
+  {
+    items: constants.initialCards,
 
+    renderer: (item) => {
+      const initCard = new Card(item.name, item.link, ".card-template", handleCardClick);
+      const loadCard = initCard.makeCard();
+      Cards.addItem(loadCard);
+    },
+  },
+  constants.cardContainer
+)
+Cards.renderElements();
 
-  Array.from(popupAll).forEach(function(popup){
-    popup.addEventListener("click", function(evt){
-      if (evt.target === evt.currentTarget){
-        closePopup();
-      }
-    });
-  })
-
-//----------------------------------------------
 
 // A Section for the Edit Form
 //---------------------------------------------
-  edit.addEventListener("click", function(evt) {
-    openPopup(popupEdit);
-    nameForm.value = myName.textContent;
-    occupationForm.value = myOccupation.textContent;
-  });
-
-  function saveProfileEdits(){
-    myName.textContent = nameForm.value;
-    myOccupation.textContent = occupationForm.value;
-  }
-
-  editForm.addEventListener("submit", function(evt) {
-    saveProfileEdits();
-    closePopup(evt);
-  });
+  const editPopup = new PopupWithForm(
+    constants.popupEdit,() => {
+      //handles what happens when this form is submitted
+      userInformation.setUserInfo(constants.nameForm.value ,constants.occupationForm.value)
+      editPopup.closePopup();
+    }, () => {
+      //handles what happens when this form is opened
+      let {name, job} = userInformation.getUserInfo();
+      constants.nameForm.value = name;
+      constants.occupationForm.value = job;
+    }
+  );
+  editPopup.setEventListeners();
 //---------------------------------------------
 
 // A section for the Add Card Form
 //---------------------------------------------
-  add.addEventListener("click", function(evt) {
-    openPopup(popupAdd);
-  });
 
-  function saveNewPlace() {
-    const newCard = new Card(titleForm.value, imageForm.value, ".card-template");
-    const saveCard = newCard.makeCard();
+  const addPopup = new PopupWithForm(
+    constants.popupAdd, () => {
+      //handles what happens when this form is submitted
+      //makes a new card and sends it over to the cards section
+        const newCard = new Card(constants.titleForm.value, constants.imageForm.value, ".card-template", handleCardClick);
+        const saveCard = newCard.makeCard();
+        Cards.addItem(saveCard);
+      //closes the popup and disables the button
+        addPopup.closePopup();
+        constants.create.classList.add("form__save-button_disabled");
+        constants.create.setAttribute("disabled", true);
 
-    cardContainer.prepend(saveCard);
-  }
+    }, () => {
+      //handles what happens when this form is opened
+      constants.addForm.reset();
+    }
+  );
+  addPopup.setEventListeners();
+//---------------------------------------------
 
+// event listeners on buttons which open the forms
+//---------------------------------------------
+constants.edit.addEventListener("click", function(evt) {
+  editPopup.openPopup();
+});
 
-  addForm.addEventListener("submit", function(evt) {
-    saveNewPlace();
-    closePopup(evt);
-    create.classList.add("form__save-button_disabled");
-    create.setAttribute("disabled", true);
-    addForm.reset();
-  });
+constants.add.addEventListener("click", function() {
+  addPopup.openPopup();
+});
 //---------------------------------------------

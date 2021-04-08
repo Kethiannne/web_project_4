@@ -1,10 +1,10 @@
-import {openPopup} from "./commonFunctions.js";
 
 class Card {
-  constructor(cardText, imageLink, template){
+  constructor(cardText, imageLink, template, handleCardClick){
     this._text = cardText;
     this._imageLink = imageLink;
     this._template = template;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -24,18 +24,6 @@ class Card {
       evt.stopPropagation();
     }
 
-    _handleImagePopupOpen(){
-      const imagePopup = document.querySelector(".image-popup");
-      const imageCaption = document.querySelector(".image-caption");
-      const popupImages = document.querySelector(".popup_image");
-
-
-      openPopup(popupImages);
-      imagePopup.setAttribute("src", this._imageLink);
-      imagePopup.alt = this._text;
-      imageCaption.textContent = this._text;
-    }
-
     _handleCardLike(evt){
       evt.target.classList.toggle("elements__heart_active");
     }
@@ -44,7 +32,7 @@ class Card {
   _setEventListeners() {
     this._placeCard.querySelector(".elements__image").addEventListener("click", () =>
     {
-      this._handleImagePopupOpen();
+      this._handleCardClick(this._text, this._imageLink);
     })
 
     this._placeCard.querySelector(".elements__heart").addEventListener("click", (evt) =>
