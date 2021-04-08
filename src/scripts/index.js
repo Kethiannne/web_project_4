@@ -29,19 +29,19 @@ function handleCardClick(text, link){
   imagePop.openPopup(text, link)
 }
 
-const Cards = new Section(
+const cards = new Section(
   {
     items: constants.initialCards,
 
     renderer: (item) => {
       const initCard = new Card(item.name, item.link, ".card-template", handleCardClick);
       const loadCard = initCard.makeCard();
-      Cards.addItem(loadCard);
+      cards.addItem(loadCard);
     },
   },
   constants.cardContainer
 )
-Cards.renderElements();
+cards.renderElements();
 
 
 // A Section for the Edit Form
@@ -53,7 +53,7 @@ Cards.renderElements();
       editPopup.closePopup();
     }, () => {
       //handles what happens when this form is opened
-      let {name, job} = userInformation.getUserInfo();
+      const {name, job} = userInformation.getUserInfo();
       constants.nameForm.value = name;
       constants.occupationForm.value = job;
     }
@@ -70,11 +70,11 @@ Cards.renderElements();
       //makes a new card and sends it over to the cards section
         const newCard = new Card(constants.titleForm.value, constants.imageForm.value, ".card-template", handleCardClick);
         const saveCard = newCard.makeCard();
-        Cards.addItem(saveCard);
+        cards.addItem(saveCard);
       //closes the popup and disables the button
         addPopup.closePopup();
-        constants.create.classList.add("form__save-button_disabled");
-        constants.create.setAttribute("disabled", true);
+        // constants.create.classList.add("form__save-button_disabled");
+        // constants.create.setAttribute("disabled", true);
 
     }, () => {
       //handles what happens when this form is opened
