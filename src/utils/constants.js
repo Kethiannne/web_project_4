@@ -20,8 +20,6 @@ export const settings = {
   const profile = page.querySelector(".profile");
   export const popupEdit = page.querySelector(".popup_edit-form");
   export const popupAdd = page.querySelector(".popup_add-form");
-  export const popupAll = page.querySelectorAll(".popup");
-  export const closeButtons = document.querySelectorAll(".popup__close-button");
 // Edit form Vars
   export const edit = profile.querySelector(".profile__edit-button");
   export const myName = profile.querySelector(".profile__name");
@@ -34,14 +32,7 @@ export const settings = {
   export const add = profile.querySelector(".profile__add-button");
   export const create = popupAdd.querySelector(".form__save-button");
   export const addForm = document.forms.add;
-  export const titleForm = addForm.elements.Title;
-  export const imageForm = addForm.elements.ImageLink;
 // Element Card Template Vars
   export const cardContainer = document.querySelector(".card-container");
-
 // Image Popup Vars
-  export const imagePopup = document.querySelector(".image-popup");
-  export const imageCaption = document.querySelector(".image-caption");
   export const popupImages = document.querySelector(".popup_image");
-
-
