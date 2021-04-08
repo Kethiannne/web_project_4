@@ -1,5 +1,5 @@
 
-import {myName, myOccupation}from "./constants.js"
+import {myName, myOccupation}from "../utils/constants.js"
 
 export default class UserInfo {
   constructor(info) {

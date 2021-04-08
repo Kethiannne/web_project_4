@@ -1,13 +1,12 @@
-import "../pages/index.css";
-import Section from "./Section.js";
-import {Card} from "./Card.js";
-import Popup from "./Popup.js";
-import PopupWithImage from "./PopupWithImage.js";
-import PopupWithForm from "./PopupWithForm.js";
-import {FormValidator} from "./FormValidator.js";
-import * as constants from "./constants.js";
-import {myName, myOccupation}from "./constants.js"
-import UserInfo from "./UserInfo";
+import "./index.css";
+import Section from "../components/Section.js";
+import {Card} from "../components/Card.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import {FormValidator} from "../components/FormValidator.js";
+import * as constants from "../utils/constants.js";
+import {myName, myOccupation}from "../utils/constants.js"
+import UserInfo from "../components/UserInfo";
 
 
 // A Section for Form Validators
