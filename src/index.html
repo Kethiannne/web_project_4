@@ -10,21 +10,23 @@
     <main>
       <header class="header">
         <img class="header__logo" src="<%=require('./images/icons/logo.svg')%>" alt="header__logo">
-
       </header>
 
       <section class="profile">
-        <img src="<%=require('./images/Jaques.png')%>" class="profile__avatar" alt="avatar">
+        <div class="profile__avatar-wrapper">
+          <button type="button" class="profile__image-edit"></button>
+          <img src="" class="profile__avatar" alt="avatar">
+        </div>
 
         <div class="profile__profile-info">
-          <h1 class="profile__name">Jacques Cousteau</h1>
+          <h1 class="profile__name"></h1>
 
           <!--make this not become all one line when the name is short-->
 
           <button class="profile__edit-button button-hover" type="button" aria-label="Edit Profile">
           </button>
 
-          <p class="profile__occupation">Explorer</p>
+          <p class="profile__occupation"></p>
 
         </div>
         <button class="profile__add-button button-hover" aria-label="Add Picture" type="button">
@@ -64,13 +66,13 @@
           Edit profile
         </h2>
 
-        <input type="text" required class="form__field edit-form__name" placeholder="Name" name="Name"
+        <input type="text" required class="form__field edit-form__name" placeholder="Name" name="name"
           minlength="2" maxlength="40">
-        <span class="form__field-error Name-error"></span>
+        <span class="form__field-error name-error"></span>
 
         <input type="text" required class="form__field edit-form__occupation" placeholder="Occupation"
-          name="Occupation" minlength="2" maxlength="200">
-        <span class="form__field-error Occupation-error"></span>
+          name="about" minlength="2" maxlength="200">
+        <span class="form__field-error about-error"></span>
 
         <button type="submit" class="form__save-button button-hover" >Save
         </button>
@@ -81,30 +83,52 @@
 
   <div class="popup popup_add-form">
     <div class="popup__wrapper">
-
       <button class="popup__close-button button-hover" type="button"  aria-label="Close">
       </button>
-
       <form class="form add-form form_closed" name="add" novalidate>
         <h2 class="form__title">
           New Place
         </h2>
-
-
-        <input type="text" required class="form__field add-form__title" placeholder="Title" name="Title"
+        <input type="text" required class="form__field add-form__title" placeholder="Title" name="name"
           minlength="1" maxlength="30">
-        <span class="form__field-error Title-error"></span>
-
-
+        <span class="form__field-error name-error"></span>
         <input type="url" required class="form__field add-form__image" placeholder="Image Link"
-          name="ImageLink">
-        <span class="form__field-error ImageLink-error"></span>
-
-
+          name="link">
+        <span class="form__field-error link-error"></span>
         <button type="submit" class="form__save-button button-hover" aria-label="Create" >Create
         </button>
       </form>
+    </div>
+  </div>
 
+  <div class="popup popup_avatar-form">
+    <div class="popup__wrapper">
+      <button class="popup__close-button button-hover" type="button"  aria-label="Close">
+      </button>
+      <form class="form avatar-form form_closed" name="avatar" novalidate>
+        <h2 class="form__title">
+          Change Profile Picture
+        </h2>
+        <input type="url" required class="form__field avatar-form__image" placeholder="Image Link"
+          name="avatar">
+        <span class="form__field-error avatar-error"></span>
+        <button type="submit" class="form__save-button button-hover" >Save
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup_delete">
+    <div class="popup__wrapper">
+      <button class="popup__close-button button-hover" type="button"  aria-label="Close">
+      </button>
+      <form class="form edit-form form_closed" name="delete" novalidate>
+        <h2 class="form__title form__title_delete">
+          Are You Sure
+        </h2>
+        <button type="submit" class="form__save-button button-hover" >Yes
+        </button>
+      </form>
     </div>
   </div>
 
@@ -116,8 +140,11 @@
       </div>
       <div class="elements__wrapper">
         <h2 class="elements__title"></h2>
-        <button class="elements__heart button-hover" aria-label="Like" type="button">
-        </button>
+        <div class="elements__like-wrapper">
+          <button class="elements__heart button-hover" aria-label="Like" type="button">
+          </button>
+          <span class="elements__like-count">0</span>
+        </div>
       </div>
     </div>
   </template>

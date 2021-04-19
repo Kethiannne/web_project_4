@@ -1,12 +1,3 @@
-export const initialCards = [
-  {name: "Yosemite Valley", link: "https://code.s3.yandex.net/web-code/yosemite.jpg"},
-  {name: "Lake Louise", link: "https://code.s3.yandex.net/web-code/lake-louise.jpg"},
-  {name: "Bald Mountains", link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg"},
-  {name: "Latemar", link: "https://code.s3.yandex.net/web-code/latemar.jpg"},
-  {name: "Vanoise National Park", link: "https://code.s3.yandex.net/web-code/vanoise.jpg"},
-  {name: "Lago di Braies", link: "https://code.s3.yandex.net/web-code/lago.jpg"}
-];
-
 export const settings = {
   inputSelector: ".form__field",
   submitButtonSelector: ".form__save-button",
@@ -20,19 +11,29 @@ export const settings = {
   const profile = page.querySelector(".profile");
   export const popupEdit = page.querySelector(".popup_edit-form");
   export const popupAdd = page.querySelector(".popup_add-form");
-// Edit form Vars
+  export const popupAvatar = page.querySelector(".popup_avatar-form");
+  export const popupDelete = page.querySelector(".popup_delete")
+  // Edit form Vars
   export const edit = profile.querySelector(".profile__edit-button");
   export const myName = profile.querySelector(".profile__name");
   export const myOccupation = profile.querySelector(".profile__occupation");
   export const editForm = document.forms.edit;
-  export const nameForm = editForm.elements.Name;
-  export const occupationForm = editForm.elements.Occupation;
+  export const nameForm = editForm.elements.name;
+  export const occupationForm = editForm.elements.about;
   export const save = popupEdit.querySelector(".form__save-button");
 // Place Card and Add Form Vars
   export const add = profile.querySelector(".profile__add-button");
   export const create = popupAdd.querySelector(".form__save-button");
   export const addForm = document.forms.add;
+// Avatar Form Vars
+  export const avatar = profile.querySelector(".profile__image-edit");
+  export const avatarImage = profile.querySelector(".profile__avatar")
+  export const avatarForm = document.forms.avatar;
+  export const avatarSave = popupAvatar.querySelector(".form__save-button");
 // Element Card Template Vars
   export const cardContainer = document.querySelector(".card-container");
 // Image Popup Vars
   export const popupImages = document.querySelector(".popup_image");
+// Delete Form Vars
+  export const deleteForm = document.forms.delete;
+  export const deleteConfirm = popupDelete.querySelector(".form__save-button");

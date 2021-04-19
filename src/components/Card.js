@@ -1,10 +1,11 @@
-
 class Card {
-  constructor(cardText, imageLink, template, handleCardClick){
-    this._text = cardText;
-    this._imageLink = imageLink;
+  constructor(data, template, handleCardClick, handleDeleteClick){
+    this._text = data.name;
+    this._imageLink = data.link;
     this._template = template;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteClick = handleDeleteClick;
+    this._id = data._id;
   }
 
   _getTemplate() {
@@ -19,20 +20,15 @@ class Card {
 
   // Event Handlers
   //----------------------------------------
-    _handleCardDelete(evt){
-      evt.target.parentElement.parentElement.remove();
-      evt.stopPropagation();
-    }
-
     _handleCardLike(evt){
       evt.target.classList.toggle("elements__heart_active");
     }
   //----------------------------------------
 
   _setEventListeners() {
-    this._placeCard.querySelector(".elements__image").addEventListener("click", () =>
-    {
-      this._handleCardClick(this._text, this._imageLink);
+    this._placeCard.querySelector(".elements__image").addEventListener("click", (evt) =>
+    {if (evt.target === evt.currentTarget){
+      this._handleCardClick(this._text, this._imageLink);}
     })
 
     this._placeCard.querySelector(".elements__heart").addEventListener("click", (evt) =>
@@ -41,7 +37,7 @@ class Card {
     })
     this._placeCard.querySelector(".elements__delete").addEventListener("click", (evt) =>
     {
-      this._handleCardDelete(evt);
+      this._handleDeleteClick(this._id, this._placeCard);
     })
   }
 

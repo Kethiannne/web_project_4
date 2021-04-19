@@ -11,12 +11,12 @@ export default class UserInfo {
     const userName = this._name;
     const occupation = this._occupation;
     //this is supposed to take the data already on the page and put it into the form inputs as the initial text when its opened
-    return {name: userName, job: occupation}
+    return {name: userName, about: occupation}
   }
 
-  setUserInfo(name, job) {
-    myName.textContent = name;
-    myOccupation.textContent = job;
+  setUserInfo(data) {
+    myName.textContent = data.name;
+    myOccupation.textContent = data.about;
 
     //this is supposed to save new text to the page in the user info sections
   }
