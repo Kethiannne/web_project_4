@@ -6,6 +6,14 @@ export const settings = {
   errorClass: "form__field-error_active"
 };
 
+export const myAuth = {
+  baseURL: "https://around.nomoreparties.co/v1/group-7",
+  headers: {
+    authorization: "a5454f22-eab5-4384-8e26-57b127f56551",
+    "Content-Type": "application/json"
+  }
+};
+
 // General Page Vars
   const page = document.querySelector(".page");
   const profile = page.querySelector(".profile");

@@ -14,13 +14,7 @@ import UserInfo from "../components/UserInfo";
 
 // Initial Classes and functions
 // ---------------------------------------------
-const api = new Api({
-  baseURL: "https://around.nomoreparties.co/v1/group-7",
-  headers: {
-    authorization: "a5454f22-eab5-4384-8e26-57b127f56551",
-    "Content-Type": "application/json"
-  }
-});
+const api = new Api(constants.myAuth);
 
 api.getInitialCards()
   .then(
@@ -45,9 +39,9 @@ api.getInitialCards()
             addValidator.renderLoading(true);
             api.addCard(data)
             .then(res=>{
-              cards.addItem(makeANewCard(res));
-              addValidator.renderLoading(false);
+              cards.prepItem(makeANewCard(res));
               addPopup.closePopup();
+              addValidator.renderLoading(false);
             });
 
         }, () => {
@@ -65,43 +59,57 @@ api.getInitialCards()
     }
   );
 
-api.getUserInfo()
-  .then(
-    res => {
-      //code for handling the user info
-      userInformation.setUserInfo(res);
-      constants.avatarImage.setAttribute("src", res.avatar)
-    }
-  )
+  api.getUserInfo()
+    .then(
+      res => {
+        //code for handling the user info
+        console.log(res);
+        userInformation.setUserInfo(res);
+        constants.avatarImage.setAttribute("src", res.avatar)
+      }
+    )
 
-const userInformation = new UserInfo({myName, myOccupation});
-const imagePop = new PopupWithImage(constants.popupImages);
-imagePop.setEventListeners();
+  const userInformation = new UserInfo({myName, myOccupation});
+  const imagePop = new PopupWithImage(constants.popupImages);
+  imagePop.setEventListeners();
 //---------------------------------------------
 
 //Standard Card Creation
 //---------------------------------------------
-function handleCardClick(text, link){
-  imagePop.openPopup(text, link)
-}
+  function handleCardClick(text, link){
+    imagePop.openPopup(text, link)
+  }
 
-function makeANewCard(data){
-  const initCard = new Card(data, ".card-template", handleCardClick, handleDeleteClick);
-  const loadCard = initCard.makeCard();
-  return loadCard;
-}
+  function makeANewCard(data){
+    const initCard = new Card(data, ".owner-template", handleCardClick, handleDeleteClick, handleLikeClick);
+    const loadCard = initCard.makeCard();
+    isOwner(data.owner._id, loadCard)
+    return loadCard;
+  }
 
+  function isOwner(id, loadCard){
+    if(id !== userInformation.getID()){
+      loadCard.querySelector(".elements__delete").remove();
+    }
+    return loadCard
+  }
+
+  //this is apparently not how its meant to be...
+  function handleLikeClick(cardId, isLiked) {
+    console.log(cardId, isLiked);
+    api.updateLike(cardId, isLiked);
+  }
 //---------------------------------------------
 
 // Form Validators
-function newValidator (formElement) {
-  const newForm = new FormValidator(constants.settings, formElement)
-  newForm.enableValidation();
-  return newForm;
-}
-const addValidator = newValidator(constants.addForm);
-const editValidator = newValidator(constants.editForm);
-const avatarValidator = newValidator(constants.avatarForm);
+  function newValidator (formElement) {
+    const newForm = new FormValidator(constants.settings, formElement)
+    newForm.enableValidation();
+    return newForm;
+  }
+  const addValidator = newValidator(constants.addForm);
+  const editValidator = newValidator(constants.editForm);
+  const avatarValidator = newValidator(constants.avatarForm);
 //---------------------------------------------
 
 // A Section for the Edit Form
@@ -114,8 +122,8 @@ const avatarValidator = newValidator(constants.avatarForm);
       api.updateUserInfo(values)
         .then(
           userInformation.setUserInfo(values),
-          editValidator.renderLoading(false),
           editPopup.closePopup(),
+          editValidator.renderLoading(false),
         )
     },
     () => {
@@ -139,8 +147,8 @@ const avatarValidator = newValidator(constants.avatarForm);
         constants.avatarImage.setAttribute("src", value.avatar)
         api.updateAvatar(value)
         .then(
-          avatarValidator.renderLoading(false),
           avatarPopup.closePopup(),
+          avatarValidator.renderLoading(false),
         )
     },
     ()=> {

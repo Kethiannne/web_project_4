@@ -17,7 +17,11 @@ export default class UserInfo {
   setUserInfo(data) {
     myName.textContent = data.name;
     myOccupation.textContent = data.about;
-
+    this._id = data._id;
     //this is supposed to save new text to the page in the user info sections
+  }
+
+  getID(){
+    return this._id;
   }
 }

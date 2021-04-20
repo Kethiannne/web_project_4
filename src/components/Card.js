@@ -1,11 +1,13 @@
 class Card {
-  constructor(data, template, handleCardClick, handleDeleteClick){
+  constructor(data, template, handleCardClick, handleDeleteClick, handleLikeClick){
     this._text = data.name;
     this._imageLink = data.link;
     this._template = template;
     this._handleCardClick = handleCardClick;
     this._handleDeleteClick = handleDeleteClick;
+    this._handleLikeClick = handleLikeClick;
     this._id = data._id;
+    this._likes = data.likes;
   }
 
   _getTemplate() {
@@ -18,12 +20,23 @@ class Card {
     return cardElement;
   }
 
-  // Event Handlers
-  //----------------------------------------
-    _handleCardLike(evt){
-      evt.target.classList.toggle("elements__heart_active");
+  //this is apparently not how its meant to be?
+  _handleCardLike(evt){
+    evt.target.classList.toggle("elements__heart_active");
+    this._isLiked = !this._isLiked;
+    this._isLikedTrue();
+    this._handleLikeClick(this._id, this._isLiked);
+  }
+
+  _isLikedTrue(){
+    if (this._isLiked){
+      console.log("i like it")
+      this._likesCount.textContent = 1 + this._likes.length;
+    } else {
+      console.log("i don't like it")
+      this._likesCount.textContent = this._likesCount.textContent - 1;
     }
-  //----------------------------------------
+  }
 
   _setEventListeners() {
     this._placeCard.querySelector(".elements__image").addEventListener("click", (evt) =>
@@ -35,7 +48,7 @@ class Card {
     {
       this._handleCardLike(evt);
     })
-    this._placeCard.querySelector(".elements__delete").addEventListener("click", (evt) =>
+    this._placeCard.querySelector(".elements__delete").addEventListener("click", () =>
     {
       this._handleDeleteClick(this._id, this._placeCard);
     })
@@ -43,9 +56,10 @@ class Card {
 
   makeCard() {
     this._placeCard = this._getTemplate();
+    this._likesCount = this._placeCard.querySelector(".elements__like-count");
     this._placeCard.querySelector(".elements__title").textContent = this._text;
     this._placeCard.querySelector(".elements__image").style.backgroundImage = `url(${this._imageLink})`;
-
+    this._likesCount.textContent = this._likes.length
     this._setEventListeners();
 
     return this._placeCard;

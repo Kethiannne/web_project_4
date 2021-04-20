@@ -6,7 +6,7 @@ export default class Api {
 
   getInitialCards() {
     // get method https://around.nomoreparties.co/v1/group-7/cards
-    return fetch(this._baseURL+`/cards`, {
+    return fetch(this._baseURL + `/cards`, {
       headers: this._headers
     })
       .then(res => {
@@ -27,7 +27,7 @@ export default class Api {
 
   addCard({link, name}){
     //post method https://around.nomoreparties.co/v1/groupId/cards
-    return fetch(this._baseURL+`/cards`, {
+    return fetch(this._baseURL + `/cards`, {
       headers: this._headers,
       method: "POST",
       body: JSON.stringify({link, name})
@@ -46,7 +46,7 @@ export default class Api {
 
   deleteCard(id){
     //delete method https://around.nomoreparties.co/v1/groupId/cards/cardID
-    return fetch(this._baseURL+`/cards/`+ id, {
+    return fetch(this._baseURL + `/cards/` + id, {
       headers: this._headers,
       method: "DELETE",
     })
@@ -62,11 +62,18 @@ export default class Api {
       )
   }
 
+
+  //this shit is still broken!!!
   updateLike(cardID, like){
     // put https://around.nomoreparties.co/v1/groupId/users/me/avatar
     // delete https://around.nomoreparties.co/v1/groupId/users/me/avatar
-    return fetch(this._baseURL+`/cards`, {
-      headers: this._headers
+    const liked = "DELETE"
+    if(like === true ){liked = "PUT"}
+
+
+    return fetch(this._baseURL + `/cards/likes` + cardID, {
+      headers: this._headers,
+      method: liked,
     })
       .then(res => {
         if (res.ok) {
@@ -81,8 +88,7 @@ export default class Api {
   }
 
   getUserInfo(){
-    //get method https://around.nomoreparties.co/v1/groupId/users/me
-    return fetch(this._baseURL+`/users/me`, {
+    return fetch(this._baseURL + `/users/me`, {
       headers: this._headers
     })
       .then(res => {
@@ -98,8 +104,7 @@ export default class Api {
   }
 
   updateUserInfo(values){
-    // patch https://around.nomoreparties.co/v1/groupId/users/me
-    return fetch(this._baseURL+`/users/me`,
+    return fetch(this._baseURL + `/users/me`,
     {
       headers: this._headers,
       method:"PATCH",
@@ -118,8 +123,7 @@ export default class Api {
   }
 
   updateAvatar(link){
-    // patch https://around.nomoreparties.co/v1/groupId/users/me/avatar
-    return fetch(this._baseURL+`/users/me/avatar`,
+    return fetch(this._baseURL + `/users/me/avatar`,
     {
     headers: this._headers,
     method:"PATCH",
