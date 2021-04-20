@@ -74,11 +74,6 @@ export default class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-
-      .then(data => {
-        console.log(data);
-      })
-
       .catch(err => {
         console.log((`Houston, we have a problem... this one in fact: ${err}`));
       }
@@ -96,7 +91,6 @@ export default class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-
       .catch(err => {
         console.log((`Houston, we have a problem... this one in fact: ${err}`));
       }
@@ -137,11 +131,6 @@ export default class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-
-      .then(data => {
-        console.log(data);
-      })
-
       .catch(err => {
         console.log((`Houston, we have a problem... this one in fact: ${err}`));
       }

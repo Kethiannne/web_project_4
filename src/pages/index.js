@@ -42,11 +42,14 @@ api.getInitialCards()
       const addPopup = new PopupWithForm(
         constants.popupAdd, (data) => {
           //handles what happens when this form is submitted
+            addValidator.renderLoading(true);
             api.addCard(data)
             .then(res=>{
               cards.addItem(makeANewCard(res));
+              addValidator.renderLoading(false);
+              addPopup.closePopup();
             });
-            addPopup.closePopup();
+
         }, () => {
           //handles what happens when this form is opened
           constants.addForm.reset();
@@ -66,7 +69,6 @@ api.getUserInfo()
   .then(
     res => {
       //code for handling the user info
-      console.log(res);
       userInformation.setUserInfo(res);
       constants.avatarImage.setAttribute("src", res.avatar)
     }
@@ -108,16 +110,20 @@ const avatarValidator = newValidator(constants.avatarForm);
     constants.popupEdit,
     (values) => {
       //handles what happens when this form is submitted
-      api.updateUserInfo(values);
-      userInformation.setUserInfo(values);
-      editPopup.closePopup();
+      editValidator.renderLoading(true);
+      api.updateUserInfo(values)
+        .then(
+          userInformation.setUserInfo(values),
+          editValidator.renderLoading(false),
+          editPopup.closePopup(),
+        )
     },
     () => {
       //handles what happens when this form is opened
       const {name, about} = userInformation.getUserInfo();
       constants.nameForm.value = name;
       constants.occupationForm.value = about;
-      editValidator.enableButton(constants.save);
+      editValidator.disableButton(constants.save);
     }
   );
   editPopup.setEventListeners();
@@ -128,14 +134,17 @@ const avatarValidator = newValidator(constants.avatarForm);
   const avatarPopup = new PopupWithForm(
     constants.popupAvatar,
     (value)=> {
-      console.log('av form submitted', value);
-      constants.avatarImage.setAttribute("src", value.avatar)
-      api.updateAvatar(value);
-      avatarPopup.closePopup();
+      //handles what happens when this form is submitted
+        avatarValidator.renderLoading(true);
+        constants.avatarImage.setAttribute("src", value.avatar)
+        api.updateAvatar(value)
+        .then(
+          avatarValidator.renderLoading(false),
+          avatarPopup.closePopup(),
+        )
     },
     ()=> {
       avatarValidator.disableButton(constants.avatarSave);
-      console.log("av form opened")
     }
   )
   avatarPopup.setEventListeners();
@@ -149,10 +158,11 @@ const avatarValidator = newValidator(constants.avatarForm);
   const deletePopup = new PopupDelete(
     constants.popupDelete,
     (id, card)=> {
-      console.log('del form submitted', id);
       api.deleteCard(id)
-      card.remove();
-      deletePopup.closePopup();
+      .then(
+        card.remove(),
+        deletePopup.closePopup(),
+      )
     }
   )
   deletePopup.setEventListeners();

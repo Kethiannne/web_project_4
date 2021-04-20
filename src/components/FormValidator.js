@@ -6,6 +6,16 @@ class FormValidator {
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
     this._formElement = form;
+    this._saveButton = this._formElement.querySelector(this._submitButtonSelector);
+  }
+
+  renderLoading(isLoading){
+    const ogText = this._submitButtonSelector.textContent;
+    if(isLoading){
+      this._saveButton.textContent = this._saveButton.textContent.slice(0, -1)+"ing...";
+    }else{
+      this._saveButton.textContent = this._saveButton.textContent.slice(0, -6)+"e";
+    }
   }
 
   //-- Showing/Hiding Error Messages
@@ -42,30 +52,30 @@ class FormValidator {
   //--
 
   //-- En/Dis-abling Submit Buttons Based on Validity of Their Corresponding Forms
-    _toggleButtonState (inputList, saveButton) {
+    _toggleButtonState (inputList) {
       if (this._hasInvalidInput(inputList)) {
-        this.disableButton(saveButton);
+        this.disableButton();
       } else {
-        this.enableButton(saveButton);
+        this.enableButton();
       }
     };
 
-    disableButton(saveButton){
-      saveButton.setAttribute("disabled", true);
-      saveButton.classList.add(this._inactiveButtonClass);
+    disableButton(){
+      this._saveButton.setAttribute("disabled", true);
+      this._saveButton.classList.add(this._inactiveButtonClass);
     }
 
-    enableButton(saveButton){
-      saveButton.removeAttribute("disabled", true);
-      saveButton.classList.remove(this._inactiveButtonClass);
+    enableButton(){
+      this._saveButton.removeAttribute("disabled", true);
+      this._saveButton.classList.remove(this._inactiveButtonClass);
     }
   //--
 
   _setEventListeners () {
     const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    const saveButton = this._formElement.querySelector(this._submitButtonSelector);
 
-    this._toggleButtonState(inputList, saveButton);
+
+    this._toggleButtonState(inputList);
 
     inputList.forEach((inputElement) =>
     {
@@ -73,7 +83,7 @@ class FormValidator {
       {
         this._checkInputValidity(inputElement);
 
-        this._toggleButtonState(inputList, saveButton)
+        this._toggleButtonState(inputList)
       });
     });
 
