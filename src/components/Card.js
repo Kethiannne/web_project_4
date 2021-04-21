@@ -22,20 +22,8 @@ class Card {
 
   //this is apparently not how its meant to be?
   _handleCardLike(evt){
-    evt.target.classList.toggle("elements__heart_active");
     this._isLiked = !this._isLiked;
-    this._isLikedTrue();
-    this._handleLikeClick(this._id, this._isLiked);
-  }
-
-  _isLikedTrue(){
-    if (this._isLiked){
-      console.log("i like it")
-      this._likesCount.textContent = 1 + this._likes.length;
-    } else {
-      console.log("i don't like it")
-      this._likesCount.textContent = this._likesCount.textContent - 1;
-    }
+    this._handleLikeClick(this._id, this._isLiked, evt);
   }
 
   _setEventListeners() {
@@ -48,6 +36,7 @@ class Card {
     {
       this._handleCardLike(evt);
     })
+
     this._placeCard.querySelector(".elements__delete").addEventListener("click", () =>
     {
       this._handleDeleteClick(this._id, this._placeCard);

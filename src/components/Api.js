@@ -64,16 +64,31 @@ export default class Api {
 
 
   //this shit is still broken!!!
-  updateLike(cardID, like){
+  updateLikeTrue(cardID){
     // put https://around.nomoreparties.co/v1/groupId/users/me/avatar
     // delete https://around.nomoreparties.co/v1/groupId/users/me/avatar
-    const liked = "DELETE"
-    if(like === true ){liked = "PUT"}
-
-
-    return fetch(this._baseURL + `/cards/likes` + cardID, {
+    return fetch(this._baseURL + `/cards/likes/` + cardID, {
       headers: this._headers,
-      method: liked,
+      method: "PUT",
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch(err => {
+        console.log((`Houston, we have a problem... this one in fact: ${err}`));
+      }
+      )
+  }
+
+  updateLikeFalse(cardID){
+    // put https://around.nomoreparties.co/v1/groupId/users/me/avatar
+    // delete https://around.nomoreparties.co/v1/groupId/users/me/avatar
+    return fetch(this._baseURL + `/cards/likes/` + cardID, {
+      headers: this._headers,
+      method: "DELETE",
     })
       .then(res => {
         if (res.ok) {

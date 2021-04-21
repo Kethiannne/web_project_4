@@ -16,6 +16,16 @@ import UserInfo from "../components/UserInfo";
 // ---------------------------------------------
 const api = new Api(constants.myAuth);
 
+
+api.getUserInfo()
+.then(
+  res => {
+    //code for handling the user info
+    console.log(`my user info: `, res);
+    userInformation.setUserInfo(res);
+    constants.avatarImage.setAttribute("src", res.avatar)
+  }
+)
 api.getInitialCards()
   .then(
     res => {
@@ -59,15 +69,7 @@ api.getInitialCards()
     }
   );
 
-  api.getUserInfo()
-    .then(
-      res => {
-        //code for handling the user info
-        console.log(res);
-        userInformation.setUserInfo(res);
-        constants.avatarImage.setAttribute("src", res.avatar)
-      }
-    )
+
 
   const userInformation = new UserInfo({myName, myOccupation});
   const imagePop = new PopupWithImage(constants.popupImages);
@@ -83,7 +85,8 @@ api.getInitialCards()
   function makeANewCard(data){
     const initCard = new Card(data, ".owner-template", handleCardClick, handleDeleteClick, handleLikeClick);
     const loadCard = initCard.makeCard();
-    isOwner(data.owner._id, loadCard)
+    isOwner(data.owner._id, loadCard);
+    isAlreadyLiked(data, loadCard);
     return loadCard;
   }
 
@@ -94,11 +97,41 @@ api.getInitialCards()
     return loadCard
   }
 
-  //this is apparently not how its meant to be...
-  function handleLikeClick(cardId, isLiked) {
-    console.log(cardId, isLiked);
-    api.updateLike(cardId, isLiked);
+  function isAlreadyLiked(data, loadCard) {
+    const myID = userInformation.getID();
+
+    console.log(data.likes)
+    data.likes.forEach(like => {
+      if (like._id === myID) {
+        loadCard.querySelector(".elements__heart").classList.add("elements__heart_active");
+      }
+      console.log(like._id, myID)
+    })
+    return loadCard
   }
+
+  //this is apparently not how its meant to be...
+  function handleLikeClick(cardId, isLiked, evt) {
+    if(isLiked){
+      api.updateLikeTrue(cardId)
+        .then(res =>{
+          evt.target.classList.add("elements__heart_active");
+          evt.target.nextSibling.nextSibling.textContent = res.likes.length;
+        })
+    } else {
+      api.updateLikeFalse(cardId)
+        .then(res =>{
+          evt.target.classList.remove("elements__heart_active");
+          evt.target.nextSibling.nextSibling.textContent = res.likes.length;
+        })
+    }
+  }
+
+
+
+
+
+
 //---------------------------------------------
 
 // Form Validators
