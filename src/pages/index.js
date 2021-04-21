@@ -14,59 +14,59 @@ import UserInfo from "../components/UserInfo";
 
 // Initial Classes and functions
 // ---------------------------------------------
-const api = new Api(constants.myAuth);
+  const api = new Api(constants.myAuth);
 
 
-api.getUserInfo()
-.then(
-  res => {
-    //code for handling the user info
-    userInformation.setUserInfo(res);
-    constants.avatarImage.setAttribute("src", res.avatar)
-  }
-)
-api.getInitialCards()
+  api.getUserInfo()
   .then(
     res => {
-      // code for rendering the initial cards
-      const cards = new Section(
-        {
-          items: res,
-          renderer: (item) => {
-            cards.addItem(makeANewCard(item));
-          },
-        },
-        constants.cardContainer
-      )
-      cards.renderElements();
-
-
-      // code for the add card form
-      const addPopup = new PopupWithForm(
-        constants.popupAdd, (data) => {
-          //handles what happens when this form is submitted
-            addValidator.renderLoading(true);
-            api.addCard(data)
-            .then(res=>{
-              cards.prepItem(makeANewCard(res));
-              addPopup.closePopup();
-              addValidator.renderLoading(false);
-            });
-
-        }, () => {
-          //handles what happens when this form is opened
-          constants.addForm.reset();
-          addValidator.disableButton(constants.create);
-        }
-      );
-      addPopup.setEventListeners();
-
-      // addbutton event listener that opens the add form
-      constants.add.addEventListener("click", function() {
-        addPopup.openPopup();
-      });
+      //code for handling the user info
+      userInformation.setUserInfo(res);
+      constants.avatarImage.setAttribute("src", res.avatar)
     }
-  );
+  )
+  api.getInitialCards()
+    .then(
+      res => {
+        // code for rendering the initial cards
+        const cards = new Section(
+          {
+            items: res,
+            renderer: (item) => {
+              cards.addItem(makeANewCard(item));
+            },
+          },
+          constants.cardContainer
+        )
+        cards.renderElements();
+
+
+        // code for the add card form
+        const addPopup = new PopupWithForm(
+          constants.popupAdd, (data) => {
+            //handles what happens when this form is submitted
+              addValidator.renderLoading(true);
+              api.addCard(data)
+              .then(res=>{
+                cards.prepItem(makeANewCard(res));
+                addPopup.closePopup();
+                addValidator.renderLoading(false);
+              });
+
+          }, () => {
+            //handles what happens when this form is opened
+            constants.addForm.reset();
+            addValidator.disableButton(constants.create);
+          }
+        );
+        addPopup.setEventListeners();
+
+        // addbutton event listener that opens the add form
+        constants.add.addEventListener("click", function() {
+          addPopup.openPopup();
+        });
+      }
+    );
 
 
 
@@ -106,7 +106,6 @@ api.getInitialCards()
     return loadCard
   }
 
-  //this is apparently not how its meant to be...
   function handleLikeClick(cardId, isLiked, evt) {
     if(isLiked){
       api.updateLikeTrue(cardId)
