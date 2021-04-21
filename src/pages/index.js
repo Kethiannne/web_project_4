@@ -21,7 +21,6 @@ api.getUserInfo()
 .then(
   res => {
     //code for handling the user info
-    console.log(`my user info: `, res);
     userInformation.setUserInfo(res);
     constants.avatarImage.setAttribute("src", res.avatar)
   }
@@ -99,13 +98,10 @@ api.getInitialCards()
 
   function isAlreadyLiked(data, loadCard) {
     const myID = userInformation.getID();
-
-    console.log(data.likes)
     data.likes.forEach(like => {
       if (like._id === myID) {
         loadCard.querySelector(".elements__heart").classList.add("elements__heart_active");
       }
-      console.log(like._id, myID)
     })
     return loadCard
   }
