@@ -20,7 +20,6 @@ import UserInfo from "../components/UserInfo";
     .then((res) => {
       const resUserInfo = res[0];
       const resInitCards = res[1];
-      console.log(myName)
       const userInformation = new UserInfo(resUserInfo, myName, myOccupation, constants.avatarImage);
       userInformation.setUserInfo(resUserInfo);
 

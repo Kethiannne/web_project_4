@@ -7,7 +7,6 @@ export default class UserInfo {
     this._profileImage = profileImage;
     this._myName = myName;
     this._myOccupation = myOccupation;
-    console.log(this._avatar);
   }
 
   getUserInfo() {
