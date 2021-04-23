@@ -17,10 +17,7 @@ import UserInfo from "../components/UserInfo";
   const api = new Api(constants.myAuth);
 
   Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then((res) => {
-      const resUserInfo = res[0];
-      const resInitCards = res[1];
-      const userInformation = new UserInfo(resUserInfo, myName, myOccupation, constants.avatarImage);
+    .then(([resUserInfo, resInitCards]) => {
       userInformation.setUserInfo(resUserInfo);
 
 
@@ -32,10 +29,14 @@ import UserInfo from "../components/UserInfo";
             //handles what happens when this form is submitted
             editPopup.renderLoading(true);
             api.updateUserInfo(values)
-              .then(
-                userInformation.setUserInfo(values),
-                editPopup.closePopup(),
-                editPopup.renderLoading(false),
+              .then( values =>{
+                userInformation.setUserInfo(values);
+                editPopup.closePopup();
+                editPopup.renderLoading(false);
+              })
+              .catch(err => {
+                console.log((`Your profile is out of wack: ${err}`));
+              }
               )
           },
           () => {
@@ -78,8 +79,11 @@ import UserInfo from "../components/UserInfo";
                 cards.prepItem(makeANewCard(res));
                 addPopup.closePopup();
                 addPopup.renderLoading(false);
-              });
-
+              })
+              .catch(err => {
+                console.log((`Card could not be delivered as dialed: ${err}`));
+              }
+              );
           }, () => {
             //handles what happens when this form is opened
             addValidator.disableButton();
@@ -110,11 +114,19 @@ import UserInfo from "../components/UserInfo";
               .then(res =>{
                 card.updateLikes(res)
               })
+              .catch(err => {
+                console.log((`Err, you sure you like that?: ${err}`));
+              }
+              )
           } else {
             api.updateLikeFalse(cardId)
               .then(res =>{
                 card.updateLikes(res)
               })
+              .catch(err => {
+                console.log((`C'mon, everyone loves that!: ${err}`));
+              }
+              )
           }
         }
 
@@ -127,12 +139,12 @@ import UserInfo from "../components/UserInfo";
           (value)=> {
             //handles what happens when this form is submitted
               avatarPopup.renderLoading(true);
-              userInformation.setAvatar({avatar: value.avatar})
               api.updateAvatar(value)
-              .then(
-                avatarPopup.closePopup(),
-                avatarPopup.renderLoading(false),
-              )
+              .then( value => {
+                userInformation.setAvatar({avatar: value.avatar})
+                avatarPopup.closePopup();
+                avatarPopup.renderLoading(false);
+              })
               .catch(err => {
                 console.log((`Aang, your chi is out of focus: ${err}`));
               }
@@ -153,12 +165,20 @@ import UserInfo from "../components/UserInfo";
     }
     )
 
+
+// Initial User Info
+//---------------------------------------------
+const userInformation = new UserInfo(myName, myOccupation, constants.avatarImage);
+//---------------------------------------------
+
 // Image Popup Initialization
+//---------------------------------------------
   const imagePop = new PopupWithImage(constants.popupImages);
   imagePop.setEventListeners();
 //---------------------------------------------
 
 // Form Validators
+//---------------------------------------------
   function newValidator (formElement) {
     const newForm = new FormValidator(constants.settings, formElement)
     newForm.enableValidation();
@@ -189,3 +209,4 @@ import UserInfo from "../components/UserInfo";
     }
   )
   deletePopup.setEventListeners();
+//---------------------------------------------
