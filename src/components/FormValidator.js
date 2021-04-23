@@ -9,15 +9,6 @@ class FormValidator {
     this._saveButton = this._formElement.querySelector(this._submitButtonSelector);
   }
 
-  renderLoading(isLoading){
-    const ogText = this._submitButtonSelector.textContent;
-    if(isLoading){
-      this._saveButton.textContent = this._saveButton.textContent.slice(0, -1)+"ing...";
-    }else{
-      this._saveButton.textContent = this._saveButton.textContent.slice(0, -6)+"e";
-    }
-  }
-
   //-- Showing/Hiding Error Messages
     _showInputError (inputElement, errorMessage) {
       const errorElement = this._formElement.querySelector(`.${inputElement.name}-error`);

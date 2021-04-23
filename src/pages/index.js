@@ -16,22 +16,49 @@ import UserInfo from "../components/UserInfo";
 // ---------------------------------------------
   const api = new Api(constants.myAuth);
 
+  Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then((res) => {
+      const resUserInfo = res[0];
+      const resInitCards = res[1];
+      console.log(myName)
+      const userInformation = new UserInfo(resUserInfo, myName, myOccupation, constants.avatarImage);
+      userInformation.setUserInfo(resUserInfo);
 
-  api.getUserInfo()
-  .then(
-    res => {
-      //code for handling the user info
-      userInformation.setUserInfo(res);
-      constants.avatarImage.setAttribute("src", res.avatar)
-    }
-  )
-  api.getInitialCards()
-    .then(
-      res => {
-        // code for rendering the initial cards
+
+      // A Section for the Edit Form
+      //---------------------------------------------
+        const editPopup = new PopupWithForm(
+          constants.popupEdit,
+          (values) => {
+            //handles what happens when this form is submitted
+            editPopup.renderLoading(true);
+            api.updateUserInfo(values)
+              .then(
+                userInformation.setUserInfo(values),
+                editPopup.closePopup(),
+                editPopup.renderLoading(false),
+              )
+          },
+          () => {
+            //handles what happens when this form is opened
+            const {name, about} = userInformation.getUserInfo();
+            constants.nameForm.value = name;
+            constants.occupationForm.value = about;
+            editValidator.disableButton(constants.save);
+          }
+        );
+        editPopup.setEventListeners();
+        constants.edit.addEventListener("click", function() {
+          editPopup.openPopup();
+        });
+      //---------------------------------------------
+
+
+
+      // code for rendering the initial cards
         const cards = new Section(
           {
-            items: res,
+            items: resInitCards,
             renderer: (item) => {
               cards.addItem(makeANewCard(item));
             },
@@ -41,92 +68,95 @@ import UserInfo from "../components/UserInfo";
         cards.renderElements();
 
 
-        // code for the add card form
+      // code for the add card form
+      //---------------------------------------------
         const addPopup = new PopupWithForm(
           constants.popupAdd, (data) => {
             //handles what happens when this form is submitted
-              addValidator.renderLoading(true);
+              addPopup.renderLoading(true);
               api.addCard(data)
               .then(res=>{
                 cards.prepItem(makeANewCard(res));
                 addPopup.closePopup();
-                addValidator.renderLoading(false);
+                addPopup.renderLoading(false);
               });
 
           }, () => {
             //handles what happens when this form is opened
-            constants.addForm.reset();
-            addValidator.disableButton(constants.create);
+            addValidator.disableButton();
           }
         );
         addPopup.setEventListeners();
-
-        // addbutton event listener that opens the add form
         constants.add.addEventListener("click", function() {
           addPopup.openPopup();
         });
-      }
-    );
+      //---------------------------------------------
 
 
+      //Standard Card Creation
+      //---------------------------------------------
+        function handleCardClick(text, link){
+          imagePop.openPopup(text, link)
+        }
 
-  const userInformation = new UserInfo({myName, myOccupation});
+        function makeANewCard(data){
+          const initCard = new Card(data, ".owner-template", handleCardClick, handleDeleteClick, handleLikeClick);
+          const loadCard = initCard.makeCard(userInformation.getID());
+          return loadCard;
+        }
+
+        function handleLikeClick(cardId, isLiked, card) {
+          if(isLiked){
+            api.updateLikeTrue(cardId)
+              .then(res =>{
+                card.updateLikes(res)
+              })
+          } else {
+            api.updateLikeFalse(cardId)
+              .then(res =>{
+                card.updateLikes(res)
+              })
+          }
+        }
+
+      //---------------------------------------------
+
+      // A Section for the Avatar Popup
+      //---------------------------------------------
+        const avatarPopup = new PopupWithForm(
+          constants.popupAvatar,
+          (value)=> {
+            //handles what happens when this form is submitted
+              avatarPopup.renderLoading(true);
+              userInformation.setAvatar({avatar: value.avatar})
+              api.updateAvatar(value)
+              .then(
+                avatarPopup.closePopup(),
+                avatarPopup.renderLoading(false),
+              )
+              .catch(err => {
+                console.log((`Aang, your chi is out of focus: ${err}`));
+              }
+              )
+          },
+          ()=> {
+            avatarValidator.disableButton(constants.avatarSave);
+          }
+        )
+        avatarPopup.setEventListeners();
+        constants.avatar.addEventListener("click", function(){
+          avatarPopup.openPopup();
+        })
+      //---------------------------------------------
+    })
+    .catch(err => {
+      console.log((`Houston, we have a problem... this one in fact: ${err}`));
+    }
+    )
+
+// Image Popup Initialization
   const imagePop = new PopupWithImage(constants.popupImages);
   imagePop.setEventListeners();
-//---------------------------------------------
-
-//Standard Card Creation
-//---------------------------------------------
-  function handleCardClick(text, link){
-    imagePop.openPopup(text, link)
-  }
-
-  function makeANewCard(data){
-    const initCard = new Card(data, ".owner-template", handleCardClick, handleDeleteClick, handleLikeClick);
-    const loadCard = initCard.makeCard();
-    isOwner(data.owner._id, loadCard);
-    isAlreadyLiked(data, loadCard);
-    return loadCard;
-  }
-
-  function isOwner(id, loadCard){
-    if(id !== userInformation.getID()){
-      loadCard.querySelector(".elements__delete").remove();
-    }
-    return loadCard
-  }
-
-  function isAlreadyLiked(data, loadCard) {
-    const myID = userInformation.getID();
-    data.likes.forEach(like => {
-      if (like._id === myID) {
-        loadCard.querySelector(".elements__heart").classList.add("elements__heart_active");
-      }
-    })
-    return loadCard
-  }
-
-  function handleLikeClick(cardId, isLiked, evt) {
-    if(isLiked){
-      api.updateLikeTrue(cardId)
-        .then(res =>{
-          evt.target.classList.add("elements__heart_active");
-          evt.target.nextSibling.nextSibling.textContent = res.likes.length;
-        })
-    } else {
-      api.updateLikeFalse(cardId)
-        .then(res =>{
-          evt.target.classList.remove("elements__heart_active");
-          evt.target.nextSibling.nextSibling.textContent = res.likes.length;
-        })
-    }
-  }
-
-
-
-
-
-
 //---------------------------------------------
 
 // Form Validators
@@ -138,52 +168,6 @@ import UserInfo from "../components/UserInfo";
   const addValidator = newValidator(constants.addForm);
   const editValidator = newValidator(constants.editForm);
   const avatarValidator = newValidator(constants.avatarForm);
-//---------------------------------------------
-
-// A Section for the Edit Form
-//---------------------------------------------
-  const editPopup = new PopupWithForm(
-    constants.popupEdit,
-    (values) => {
-      //handles what happens when this form is submitted
-      editValidator.renderLoading(true);
-      api.updateUserInfo(values)
-        .then(
-          userInformation.setUserInfo(values),
-          editPopup.closePopup(),
-          editValidator.renderLoading(false),
-        )
-    },
-    () => {
-      //handles what happens when this form is opened
-      const {name, about} = userInformation.getUserInfo();
-      constants.nameForm.value = name;
-      constants.occupationForm.value = about;
-      editValidator.disableButton(constants.save);
-    }
-  );
-  editPopup.setEventListeners();
-//---------------------------------------------
-
-// A Section for the Avatar Popup
-//---------------------------------------------
-  const avatarPopup = new PopupWithForm(
-    constants.popupAvatar,
-    (value)=> {
-      //handles what happens when this form is submitted
-        avatarValidator.renderLoading(true);
-        constants.avatarImage.setAttribute("src", value.avatar)
-        api.updateAvatar(value)
-        .then(
-          avatarPopup.closePopup(),
-          avatarValidator.renderLoading(false),
-        )
-    },
-    ()=> {
-      avatarValidator.disableButton(constants.avatarSave);
-    }
-  )
-  avatarPopup.setEventListeners();
 //---------------------------------------------
 
 //A Section for the Delete Popup
@@ -199,15 +183,10 @@ import UserInfo from "../components/UserInfo";
         card.remove(),
         deletePopup.closePopup(),
       )
+      .catch(err => {
+        console.log((`I'm sorry Dave, I'm afraid I can't do that: ${err}`));
+      }
+      )
     }
   )
   deletePopup.setEventListeners();
-// Event Listeners for Buttons Which Open Forms
-//---------------------------------------------
-  constants.edit.addEventListener("click", function(evt) {
-    editPopup.openPopup();
-  });
-  constants.avatar.addEventListener("click", function(){
-    avatarPopup.openPopup();
-  })
-//---------------------------------------------

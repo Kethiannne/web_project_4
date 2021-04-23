@@ -1,7 +1,7 @@
 export default class Popup {
 
-  constructor(popupSelector) {
-    this._popup = popupSelector;
+  constructor(popup) {
+    this._popup = popup;
 
     // prevents handle escape from reaching global scope and breaking
     this._closeEscape = this._closeEscape.bind(this);

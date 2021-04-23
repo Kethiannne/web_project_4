@@ -17,6 +17,11 @@ export default class PopupDelete extends Popup{
     document.addEventListener(`keydown`, this._closeEnter)
   }
 
+  closePopup(){
+    document.removeEventListener(`keydown`, this._closeEnter)
+    super.closePopup();
+  }
+
   _handleSubmit(evt){
     evt.preventDefault();
     this._submit(this._id, this._card);

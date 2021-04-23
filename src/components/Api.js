@@ -4,102 +4,62 @@ export default class Api {
     this._headers = headers;
   }
 
+  _successfulReturn(res){
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(`Error: ${res.status}`);
+    }
+  }
+
   getInitialCards() {
-    // get method https://around.nomoreparties.co/v1/group-7/cards
     return fetch(this._baseURL + `/cards`, {
       headers: this._headers
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 
-  // getAppInfo(){
-  //   //makes the page wait to render the user info and the cards until they are loaded
-  // }
-
   addCard({link, name}){
-    //post method https://around.nomoreparties.co/v1/groupId/cards
     return fetch(this._baseURL + `/cards`, {
       headers: this._headers,
       method: "POST",
       body: JSON.stringify({link, name})
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 
   deleteCard(id){
-    //delete method https://around.nomoreparties.co/v1/groupId/cards/cardID
     return fetch(this._baseURL + `/cards/` + id, {
       headers: this._headers,
       method: "DELETE",
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 
-
-  //this shit is still broken!!!
   updateLikeTrue(cardID){
-    // put https://around.nomoreparties.co/v1/groupId/users/me/avatar
-    // delete https://around.nomoreparties.co/v1/groupId/users/me/avatar
     return fetch(this._baseURL + `/cards/likes/` + cardID, {
       headers: this._headers,
       method: "PUT",
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 
   updateLikeFalse(cardID){
-    // put https://around.nomoreparties.co/v1/groupId/users/me/avatar
-    // delete https://around.nomoreparties.co/v1/groupId/users/me/avatar
     return fetch(this._baseURL + `/cards/likes/` + cardID, {
       headers: this._headers,
       method: "DELETE",
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 
   getUserInfo(){
@@ -107,15 +67,8 @@ export default class Api {
       headers: this._headers
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 
   updateUserInfo(values){
@@ -126,15 +79,8 @@ export default class Api {
       body: JSON.stringify(values)
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 
   updateAvatar(link){
@@ -145,14 +91,7 @@ export default class Api {
     body: JSON.stringify(link)
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
+        return this._successfulReturn(res);
       })
-      .catch(err => {
-        console.log((`Houston, we have a problem... this one in fact: ${err}`));
-      }
-      )
   }
 }

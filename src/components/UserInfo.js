@@ -1,24 +1,30 @@
-
-import {myName, myOccupation}from "../utils/constants.js"
-
 export default class UserInfo {
-  constructor(info) {
-    this._name = info.myName.textContent;
-    this._occupation = info.myOccupation.textContent;
+  constructor(info, myName, myOccupation, profileImage) {
+    this._name = info.name;
+    this._occupation = info.about;
+    this._id = info._id;
+    this._avatar = info.avatar;
+    this._profileImage = profileImage;
+    this._myName = myName;
+    this._myOccupation = myOccupation;
+    console.log(this._avatar);
   }
 
   getUserInfo() {
     const userName = this._name;
     const occupation = this._occupation;
-    //this is supposed to take the data already on the page and put it into the form inputs as the initial text when its opened
     return {name: userName, about: occupation}
   }
 
   setUserInfo(data) {
-    myName.textContent = data.name;
-    myOccupation.textContent = data.about;
-    this._id = data._id;
-    //this is supposed to save new text to the page in the user info sections
+    this._myName.textContent = data.name;
+    this._myOccupation.textContent = data.about;
+    this.setAvatar(data)
+  }
+
+
+  setAvatar(data){
+    this._profileImage.setAttribute("src", data.avatar)
   }
 
   getID(){

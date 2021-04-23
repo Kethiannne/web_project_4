@@ -9,6 +9,15 @@ export default class PopupWithForm extends Popup {
     this._formOpen = formOpen;
   }
 
+  renderLoading(isLoading){
+    this._saveButton = this._form.querySelector(".form__save-button")
+    const ogText = this._saveButton.textContent;
+    if(isLoading){
+      this._saveButton.textContent = this._saveButton.textContent.slice(0, -1)+"ing...";
+    }else{
+      this._saveButton.textContent = this._saveButton.textContent.slice(0, -6)+"e";
+    }
+  }
   _getInputValues(){
     const values = {};
     const inputs = Array.from(this._form.querySelectorAll(`.form__field`));
